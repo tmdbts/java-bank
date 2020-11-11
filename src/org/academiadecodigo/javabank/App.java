@@ -1,6 +1,7 @@
 package org.academiadecodigo.javabank;
 
 import org.academiadecodigo.bootcamp.Prompt;
+import org.academiadecodigo.bootcamp.scanners.string.StringInputScanner;
 import org.academiadecodigo.javabank.domain.Bank;
 import org.academiadecodigo.javabank.domain.Customer;
 import org.academiadecodigo.javabank.domain.account.AccountType;
@@ -19,6 +20,8 @@ public class App {
 
         Prompt prompt = new Prompt(System.in, System.out);
 
+        StringInputScanner accIdInput = new StringInputScanner();
 
+        String accId = prompt.getUserInput(accIdInput);
     }
 }
