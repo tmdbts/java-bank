@@ -1,4 +1,10 @@
 package org.academiadecodigo.javabank.application.operations;
 
-public class Withdrawal {
+import org.academiadecodigo.javabank.domain.Customer;
+
+public class Withdrawal implements Operation {
+    @Override
+    public void execute(Customer customer) {
+
+    }
 }
