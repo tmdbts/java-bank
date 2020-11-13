@@ -1,8 +1,9 @@
-package org.academiadecodigo.javabank.domain.account;
+package org.academiadecodigo.javabank.model.domain.account;
 
 /**
  * A savings account domain entity which requires a minimum balance
  * and can only be used for transferring money, not for debiting
+ *
  * @see Account
  * @see AccountType#SAVINGS
  */

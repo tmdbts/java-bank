@@ -1,7 +1,7 @@
-package org.academiadecodigo.javabank.domain;
+package org.academiadecodigo.javabank.model.domain;
 
-import org.academiadecodigo.javabank.domain.account.Account;
-import org.academiadecodigo.javabank.domain.account.AccountType;
+import org.academiadecodigo.javabank.model.domain.account.Account;
+import org.academiadecodigo.javabank.model.domain.account.AccountType;
 import org.academiadecodigo.javabank.managers.AccountManager;
 
 import java.util.HashMap;
@@ -23,7 +23,7 @@ public class Customer {
     /**
      * Creates a new instance of Customer and initializes it with given id and name
      *
-     * @param id the customer id
+     * @param id   the customer id
      * @param name the customer name
      */
     public Customer(int id, String name) {
@@ -49,7 +49,8 @@ public class Customer {
         return name;
     }
 
-    /** Sets the account manager
+    /**
+     * Sets the account manager
      *
      * @param accountManager the account manager to set
      */

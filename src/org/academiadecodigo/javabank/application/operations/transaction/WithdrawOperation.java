@@ -1,10 +1,11 @@
 package org.academiadecodigo.javabank.application.operations.transaction;
 
-import org.academiadecodigo.javabank.application.BankApplication;
 import org.academiadecodigo.javabank.application.UserOptions;
+import org.academiadecodigo.javabank.application.BankApplication;
 
 /**
  * An account transaction used to withdraw an amount
+ *
  * @see AbstractAccountTransactionOperation
  * @see UserOptions#WITHDRAW
  */

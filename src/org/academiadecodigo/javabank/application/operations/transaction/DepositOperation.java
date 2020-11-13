@@ -5,6 +5,7 @@ import org.academiadecodigo.javabank.application.UserOptions;
 
 /**
  * An account transaction used to deposit an amount
+ *
  * @see AbstractAccountTransactionOperation
  * @see UserOptions#DEPOSIT
  */

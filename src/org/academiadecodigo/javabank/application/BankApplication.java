@@ -5,10 +5,10 @@ import org.academiadecodigo.bootcamp.scanners.integer.IntegerSetInputScanner;
 import org.academiadecodigo.bootcamp.scanners.menu.MenuInputScanner;
 import org.academiadecodigo.javabank.application.operations.BalanceOperation;
 import org.academiadecodigo.javabank.application.operations.NewAccountOperation;
+import org.academiadecodigo.javabank.application.operations.transaction.WithdrawOperation;
 import org.academiadecodigo.javabank.application.operations.Operation;
 import org.academiadecodigo.javabank.application.operations.transaction.DepositOperation;
-import org.academiadecodigo.javabank.application.operations.transaction.WithdrawOperation;
-import org.academiadecodigo.javabank.domain.Bank;
+import org.academiadecodigo.javabank.model.domain.Bank;
 
 import java.util.HashMap;
 import java.util.Map;

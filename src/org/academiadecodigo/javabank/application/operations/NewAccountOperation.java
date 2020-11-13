@@ -1,12 +1,13 @@
 package org.academiadecodigo.javabank.application.operations;
 
-import org.academiadecodigo.javabank.application.BankApplication;
 import org.academiadecodigo.javabank.application.Messages;
 import org.academiadecodigo.javabank.application.UserOptions;
-import org.academiadecodigo.javabank.domain.account.AccountType;
+import org.academiadecodigo.javabank.application.BankApplication;
+import org.academiadecodigo.javabank.model.domain.account.AccountType;
 
 /**
  * A bank operation to create new accounts
+ *
  * @see AbstractBankOperation
  * @see UserOptions#OPEN_ACCOUNT
  */

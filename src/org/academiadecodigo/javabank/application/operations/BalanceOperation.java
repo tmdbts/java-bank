@@ -1,15 +1,16 @@
 package org.academiadecodigo.javabank.application.operations;
 
+import org.academiadecodigo.javabank.application.UserOptions;
 import org.academiadecodigo.javabank.application.BankApplication;
 import org.academiadecodigo.javabank.application.Messages;
-import org.academiadecodigo.javabank.application.UserOptions;
-import org.academiadecodigo.javabank.domain.account.Account;
+import org.academiadecodigo.javabank.model.domain.account.Account;
 
 import java.text.DecimalFormat;
 import java.util.Set;
 
 /**
  * A bank operation to check the balance
+ *
  * @see AbstractBankOperation
  * @see UserOptions#GET_BALANCE
  */

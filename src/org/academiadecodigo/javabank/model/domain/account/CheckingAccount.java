@@ -1,7 +1,8 @@
-package org.academiadecodigo.javabank.domain.account;
+package org.academiadecodigo.javabank.model.domain.account;
 
 /**
  * A checking account with no restrictions
+ *
  * @see Account
  * @see AccountType#CHECKING
  */
