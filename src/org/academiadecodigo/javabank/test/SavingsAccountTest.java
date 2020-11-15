@@ -1,7 +1,12 @@
 package org.academiadecodigo.javabank.test;
 
+<<<<<<< HEAD
 import org.academiadecodigo.javabank.model.account.Account;
 import org.academiadecodigo.javabank.model.account.SavingsAccount;
+=======
+import org.academiadecodigo.javabank.model.domain.account.Account;
+import org.academiadecodigo.javabank.model.domain.account.SavingsAccount;
+>>>>>>> ac7226f0c7d408d4bbc4d9fafd9620d1f0706878
 
 public class SavingsAccountTest {
 

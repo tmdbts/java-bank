@@ -1,5 +1,10 @@
 package org.academiadecodigo.javabank.managers;
 
+<<<<<<< HEAD
+=======
+import org.academiadecodigo.javabank.model.domain.account.Account;
+import org.academiadecodigo.javabank.model.domain.account.AccountType;
+>>>>>>> ac7226f0c7d408d4bbc4d9fafd9620d1f0706878
 import org.academiadecodigo.javabank.factories.AccountFactory;
 import org.academiadecodigo.javabank.model.account.Account;
 import org.academiadecodigo.javabank.model.account.AccountType;
