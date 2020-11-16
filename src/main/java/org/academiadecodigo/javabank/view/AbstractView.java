@@ -4,6 +4,7 @@ import org.academiadecodigo.bootcamp.Prompt;
 
 /**
  * A generic view to be used as a base for concrete view implementations
+ *
  * @see View
  */
 public abstract class AbstractView implements View {
