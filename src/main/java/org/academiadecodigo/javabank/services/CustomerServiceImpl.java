@@ -1,9 +1,12 @@
 package org.academiadecodigo.javabank.services;
 
+import org.academiadecodigo.javabank.model.AbstractModel;
 import org.academiadecodigo.javabank.model.Customer;
+import org.academiadecodigo.javabank.model.Model;
 import org.academiadecodigo.javabank.model.account.Account;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * An {@link CustomerService} implementation
@@ -43,14 +46,11 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Set<Integer> listCustomerAccountIds(Integer id) {
 
-        Set<Integer> accountIds = new HashSet<>();
         List<Account> accountList = customerMap.get(id).getAccounts();
 
-        for (Account account : accountList) {
-            accountIds.add(account.getId());
-        }
-
-        return accountIds;
+        return accountList.stream()
+                .map(Model::getId)
+                .collect(Collectors.toSet());
     }
 
     /**
@@ -61,12 +61,9 @@ public class CustomerServiceImpl implements CustomerService {
 
         List<Account> accounts = customerMap.get(id).getAccounts();
 
-        double balance = 0;
-        for (Account account : accounts) {
-            balance += account.getBalance();
-        }
-
-        return balance;
+        return accounts.stream()
+                .mapToDouble(Account::getBalance)
+                .sum();
     }
 
     /**

@@ -1,7 +1,7 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.academiadecodigo.javabank</groupId>
-    <artifactId>javabank-step4-tests</artifactId>
+    <artifactId>javabank-step4.5-tests</artifactId>
     <version>0.0.1</version>
 
     <properties>
@@ -39,7 +39,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.0</version>
                 <configuration>
-                    <source>1.7</source>
+                    <source>1.8</source>
                     <target>10</target>
                 </configuration>
             </plugin>
