@@ -1,5 +1,7 @@
 package org.academiadecodigo.javabank.model.account;
 
+import javax.persistence.ManyToOne;
+
 /**
  * The possible {@link Account} types
  */

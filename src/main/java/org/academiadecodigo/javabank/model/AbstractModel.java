@@ -1,10 +1,13 @@
 package org.academiadecodigo.javabank.model;
 
+import javax.persistence.Id;
+
 /**
  * A generic model entity to be used as a base for concrete types of models
  */
 public abstract class AbstractModel implements Model {
 
+    @Id
     private Integer id;
 
     /**

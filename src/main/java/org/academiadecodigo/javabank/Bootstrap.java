@@ -9,6 +9,7 @@ import org.academiadecodigo.javabank.model.Customer;
 import org.academiadecodigo.javabank.services.AccountServiceImpl;
 import org.academiadecodigo.javabank.services.AuthServiceImpl;
 import org.academiadecodigo.javabank.services.CustomerServiceImpl;
+import org.academiadecodigo.javabank.services.DbCustomerServiceImpl;
 import org.academiadecodigo.javabank.view.*;
 
 import java.util.HashMap;
@@ -20,7 +21,7 @@ import java.util.Map;
 public class Bootstrap {
 
     private AuthServiceImpl authService;
-    private CustomerServiceImpl customerService;
+    private DbCustomerServiceImpl customerService;
     private AccountServiceImpl accountService;
 
     /**
@@ -37,7 +38,7 @@ public class Bootstrap {
      *
      * @param customerService the customer service to set
      */
-    public void setCustomerService(CustomerServiceImpl customerService) {
+    public void setCustomerService(DbCustomerServiceImpl customerService) {
         this.customerService = customerService;
     }
 

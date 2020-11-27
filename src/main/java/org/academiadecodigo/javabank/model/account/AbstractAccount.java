@@ -1,21 +1,32 @@
 package org.academiadecodigo.javabank.model.account;
 
 import org.academiadecodigo.javabank.model.AbstractModel;
+import org.academiadecodigo.javabank.model.Customer;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Version;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
  * A generic account model entity to be used as a base for concrete types of accounts
+ *
  * @see Account
  */
-@MappedSuperclass
+@Entity(name = "AbstractAccount")
+@Table(name = "accounts")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(
+        name = "account_type",
+        discriminatorType = DiscriminatorType.STRING
+)
 public abstract class AbstractAccount extends AbstractModel implements Account {
 
     private double balance = 0;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
     @Version
     private Integer version;
@@ -25,6 +36,19 @@ public abstract class AbstractAccount extends AbstractModel implements Account {
 
     @UpdateTimestamp
     private Date lastUpdate;
+
+    @ManyToOne
+    private Customer accountOwner;
+
+    @Override
+    public Integer getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     /**
      * @see Account#getBalance()
@@ -90,6 +114,14 @@ public abstract class AbstractAccount extends AbstractModel implements Account {
      */
     public void setLastUpdate(Date lastUpdate) {
         this.lastUpdate = lastUpdate;
+    }
+
+    public Customer getAccountOwner() {
+        return accountOwner;
+    }
+
+    public void setAccountOwner(Customer accountOwner) {
+        this.accountOwner = accountOwner;
     }
 
     /**
