@@ -17,8 +17,9 @@
             <property name="hibernate.connection.password" value=""/>
             <property name="hibernate.archive.autodetection" value="class"/>
             <property name="hibernate.format_sql" value="true"/>
-            <property name="hibernate.hbm2ddl.import_files" value="db/test-data.sql" />
-            <property name="hibernate.hbm2ddl.import_files_sql_extractor" value="org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor" />
+            <property name="hibernate.hbm2ddl.import_files" value="db/test-data.sql"/>
+            <property name="hibernate.hbm2ddl.import_files_sql_extractor"
+                      value="org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor"/>
 
             <!-- Create database schema and populate with test data -->
             <!--<property name="hibernate.hbm2ddl.auto" value="create"/>-->
@@ -31,9 +32,9 @@
 
     <persistence-unit name="prod" transaction-type="RESOURCE_LOCAL">
 
-       <description>
-           Persistence Unit for Java Bank production environment
-       </description>
+        <description>
+            Persistence Unit for Java Bank production environment
+        </description>
 
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <properties>
@@ -44,14 +45,15 @@
             <property name="hibernate.connection.password" value=""/>
             <property name="hibernate.archive.autodetection" value="class"/>
             <property name="hibernate.format_sql" value="true"/>
-            <property name="hibernate.hbm2ddl.import_files" value="db/test-data.sql" />
-            <property name="hibernate.hbm2ddl.import_files_sql_extractor" value="org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor" />
+            <property name="hibernate.hbm2ddl.import_files" value="db/test-data.sql"/>
+            <property name="hibernate.hbm2ddl.import_files_sql_extractor"
+                      value="org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor"/>
 
             <!-- Validate database schema, data loss can occur if set to create or update -->
             <property name="hibernate.hbm2ddl.auto" value="create"/>
 
             <!-- Turn on for debug -->
-            <!--<property name="hibernate.show_sql" value="true"/>-->
+            <property name="hibernate.show_sql" value="true"/>
 
         </properties>
     </persistence-unit>
@@ -79,8 +81,9 @@
 
             <!-- Create database schema and populate with test data -->
             <property name="hibernate.hbm2ddl.auto" value="create"/>
-            <property name="hibernate.hbm2ddl.import_files" value="db/test-data.sql" />
-            <property name="hibernate.hbm2ddl.import_files_sql_extractor" value="org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor" />
+            <property name="hibernate.hbm2ddl.import_files" value="db/test-data.sql"/>
+            <property name="hibernate.hbm2ddl.import_files_sql_extractor"
+                      value="org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor"/>
 
             <!-- Turn on for debug -->
             <!--<property name="hibernate.show_sql" value="true"/>-->
