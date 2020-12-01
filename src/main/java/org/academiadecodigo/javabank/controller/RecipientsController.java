@@ -30,7 +30,9 @@ public class RecipientsController extends AbstractController {
      * @see CustomerService#listRecipients(Integer)
      */
     public List<Recipient> getRecipients() {
+
         Customer customer = authService.getAccessingCustomer();
+        
         return customerService.listRecipients(customer.getId());
     }
 }

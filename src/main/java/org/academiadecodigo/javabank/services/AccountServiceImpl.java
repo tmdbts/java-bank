@@ -5,7 +5,6 @@ import org.academiadecodigo.javabank.persistence.TransactionException;
 import org.academiadecodigo.javabank.persistence.TransactionManager;
 import org.academiadecodigo.javabank.persistence.dao.AccountDao;
 
-import java.lang.management.OperatingSystemMXBean;
 import java.util.Optional;
 
 /**
@@ -41,10 +40,9 @@ public class AccountServiceImpl implements AccountService {
     public Account get(Integer id) {
 
         try {
-
             tx.beginRead();
-            return accountDao.findById(id);
 
+            return accountDao.findById(id);
         } finally {
             tx.commit();
         }
@@ -59,13 +57,11 @@ public class AccountServiceImpl implements AccountService {
         Integer id = null;
 
         try {
-
             tx.beginWrite();
 
             id = accountDao.saveOrUpdate(account).getId();
 
             tx.commit();
-
         } catch (TransactionException ex) {
 
             tx.rollback();
@@ -81,7 +77,6 @@ public class AccountServiceImpl implements AccountService {
     public void deposit(Integer id, double amount) {
 
         try {
-
             tx.beginWrite();
 
             Optional<Account> account = Optional.ofNullable(accountDao.findById(id));
@@ -96,9 +91,7 @@ public class AccountServiceImpl implements AccountService {
             accountDao.saveOrUpdate(account.get());
 
             tx.commit();
-
         } catch (TransactionException ex) {
-
             tx.rollback();
         }
     }
@@ -110,7 +103,6 @@ public class AccountServiceImpl implements AccountService {
     public void withdraw(Integer id, double amount) {
 
         try {
-
             tx.beginWrite();
 
             Optional<Account> account = Optional.ofNullable(accountDao.findById(id));
@@ -125,9 +117,7 @@ public class AccountServiceImpl implements AccountService {
             accountDao.saveOrUpdate(account.get());
 
             tx.commit();
-
         } catch (TransactionException ex) {
-
             tx.rollback();
         }
     }
@@ -139,7 +129,6 @@ public class AccountServiceImpl implements AccountService {
     public void transfer(Integer srcId, Integer dstId, double amount) {
 
         try {
-
             tx.beginWrite();
 
             Optional<Account> srcAccount = Optional.ofNullable(accountDao.findById(srcId));
@@ -161,9 +150,7 @@ public class AccountServiceImpl implements AccountService {
             accountDao.saveOrUpdate(dstAccount.get());
 
             tx.commit();
-
         } catch (TransactionException ex) {
-
             tx.rollback();
         }
     }

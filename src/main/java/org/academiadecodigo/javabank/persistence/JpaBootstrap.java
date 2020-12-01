@@ -15,7 +15,6 @@ public class JpaBootstrap {
     public EntityManagerFactory start() {
 
         try {
-
             emf = Persistence.createEntityManagerFactory(Config.PERSISTENCE_UNIT);
 
             isH2 = emf.getProperties().get("hibernate.connection.driver_class").equals("org.h2.Driver");
@@ -24,9 +23,7 @@ public class JpaBootstrap {
                 h2WebServer = new H2WebServer();
                 h2WebServer.start();
             }
-
         } catch (SQLException ex) {
-            //ex.printStackTrace();
             System.err.println("ERROR: JPA Failure - " + ex.getMessage());
         }
 

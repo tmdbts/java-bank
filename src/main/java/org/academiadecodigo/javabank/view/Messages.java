@@ -19,11 +19,11 @@ public class Messages {
 
     public final static String VIEW_NEW_ACCOUNT_MESSAGE = "Created new account: ";
 
-    public final static String VIEW_ACCOUNT_TRANSACTION_NOACCOUNT_ERROR = "Open a bank account first, please!";
+    public final static String VIEW_ACCOUNT_TRANSACTION_NO_ACCOUNT_ERROR = "Open a bank account first, please!";
     public final static String VIEW_ACCOUNT_TRANSACTION_INVALID_ACCOUNT_ERROR = "That is an invalid account";
     public final static String VIEW_ACCOUNT_TRANSACTION_INVALID_AMOUNT_ERROR = "That is an invalid amount";
     public final static String VIEW_ACCOUNT_TRANSACTION_ACCOUNTS_MESSAGE = "Choose one of your accounts: ";
-    public final static String VIEW_ACCOUNT_TRANSACTION_ACCOUNTID_MESSAGE = "Please insert your account number: ";
+    public final static String VIEW_ACCOUNT_TRANSACTION_ACCOUNT_ID_MESSAGE = "Please insert your account number: ";
     public final static String VIEW_ACCOUNT_TRANSACTION_AMOUNT_MESSAGE = "Please insert amount: ";
 
     public final static String VIEW_RECIPIENTS_MESSAGE = "List of Recipients: ";

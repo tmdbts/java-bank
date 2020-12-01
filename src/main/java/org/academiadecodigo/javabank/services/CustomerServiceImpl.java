@@ -43,10 +43,8 @@ public class CustomerServiceImpl implements CustomerService {
     public Customer get(Integer id) {
 
         try {
-
             tx.beginRead();
             return customerDao.findById(id);
-
         } finally {
             tx.commit();
         }
@@ -59,7 +57,6 @@ public class CustomerServiceImpl implements CustomerService {
     public double getBalance(Integer id) {
 
         try {
-
             tx.beginRead();
 
             Customer customer = Optional.ofNullable(customerDao.findById(id))
@@ -68,7 +65,6 @@ public class CustomerServiceImpl implements CustomerService {
             return customer.getAccounts().stream()
                     .mapToDouble(Account::getBalance)
                     .sum();
-
         } finally {
             tx.commit();
         }
@@ -81,7 +77,6 @@ public class CustomerServiceImpl implements CustomerService {
     public Set<Integer> listCustomerAccountIds(Integer id) {
 
         try {
-
             tx.beginRead();
 
             Customer customer = Optional.ofNullable(customerDao.findById(id))
@@ -90,7 +85,6 @@ public class CustomerServiceImpl implements CustomerService {
             return customer.getAccounts().stream()
                     .map(AbstractModel::getId)
                     .collect(Collectors.toSet());
-
         } finally {
             tx.commit();
         }
@@ -103,14 +97,12 @@ public class CustomerServiceImpl implements CustomerService {
     public List<Recipient> listRecipients(Integer id) {
 
         try {
-
             tx.beginRead();
 
             Customer customer = Optional.ofNullable(customerDao.findById(id))
                     .orElseThrow(() -> new IllegalArgumentException("Customer does not exist"));
 
             return new ArrayList<>(customer.getRecipients());
-
         } finally {
             tx.commit();
         }

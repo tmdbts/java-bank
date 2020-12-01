@@ -17,12 +17,14 @@ public abstract class Account extends AbstractModel {
     private Customer customer;
 
     public void credit(double amount) {
+        
         if (canCredit(amount)) {
             balance += amount;
         }
     }
 
     public void debit(double amount) {
+
         if (canDebit(amount)) {
             balance -= amount;
         }

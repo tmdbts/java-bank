@@ -59,8 +59,7 @@ public class MockAccountService extends AbstractMockService<Account> implements 
 
         Account srcAccount = modelMap.get(srcId);
         Account dstAccount = modelMap.get(dstId);
-
-        // make sure transaction can be performed
+        
         if (srcAccount.canDebit(amount) && dstAccount.canCredit(amount)) {
             srcAccount.debit(amount);
             dstAccount.credit(amount);

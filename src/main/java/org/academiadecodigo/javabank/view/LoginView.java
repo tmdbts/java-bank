@@ -42,6 +42,7 @@ public class LoginView extends AbstractView {
     private void showLoginPrompt() {
 
         IntegerInputScanner scanner = new IntegerInputScanner();
+        
         scanner.setMessage("\n" + Messages.VIEW_LOGIN_MESSAGE);
         scanner.setError(Messages.VIEW_LOGIN_ERROR);
         loginController.onLogin(prompt.getUserInput(scanner));

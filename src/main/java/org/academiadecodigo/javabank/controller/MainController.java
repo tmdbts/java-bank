@@ -29,7 +29,9 @@ public class MainController extends AbstractController {
      * @return the customer name
      */
     public String getCustomerName() {
+
         Customer customer = authService.getAccessingCustomer();
+
         return customer.getFirstName() + " " + customer.getLastName();
     }
 

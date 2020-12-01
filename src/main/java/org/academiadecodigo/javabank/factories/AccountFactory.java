@@ -20,6 +20,7 @@ public class AccountFactory {
     public Account createAccount(AccountType accountType) {
 
         Account newAccount;
+        
         switch (accountType) {
             case CHECKING:
                 newAccount = new CheckingAccount();
@@ -29,7 +30,6 @@ public class AccountFactory {
                 break;
             default:
                 newAccount = null;
-
         }
 
         return newAccount;
