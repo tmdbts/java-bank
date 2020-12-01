@@ -3,4 +3,14 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <bean id="jpaAccountDao" class="org.academiadecodigo.javabank.persistence.dao.jpa.JpaAccountDao">
+    </bean>
+
+    <bean id="genericJpaDao" class="org.academiadecodigo.javabank.persistence.dao.jpa.GenericJpaDao">
+        <constructor-arg index="0" ref="jpaSessionManager"/>
+        <constructor-arg index="1" ref="model"/>
+    </bean>
+
+    <bean id="jpaCustomerDao" class="org.academiadecodigo.javabank.persistence.dao.jpa.JpaCustomerDao">
+    </bean>
 </beans>

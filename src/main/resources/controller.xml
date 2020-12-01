@@ -54,4 +54,13 @@
         <property name="nextController" ref=""/>
         <property name="view" ref="loginView"/>
     </bean>
+
+    <bean id="accountTransactionController"
+          class="org.academiadecodigo.javabank.controller.transaction.AbstractAccountTransactionController"
+          abstract="true">
+        <property name="authService" ref="authService"/>
+        <property name="customerService" ref="customerService"/>
+        <property name="accountService" ref="accountService"/>
+        <property name="view" ref="accountTransactionView"/>
+    </bean>
 </beans>

@@ -3,4 +3,30 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <bean id="accountTransactionView" class="org.academiadecodigo.javabank.view.AccountTransactionView">
+        <property name="prompt" ref="prompt"/>
+        <property name="transactionController" ref="accountTransactionController"/>
+    </bean>
+
+    <bean id="balanceView" class="org.academiadecodigo.javabank.view.BalanceView">
+        <property name="balanceController" ref="balanceController"/>
+    </bean>
+
+    <bean id="newAccountView" class="org.academiadecodigo.javabank.view.NewAccountView">
+        <property name="newAccountController" ref="newAccountController"/>
+    </bean>
+
+    <bean id="recipientsView" class="org.academiadecodigo.javabank.view.RecipientsView">
+        <property name="recipientsController" ref="recipientsController"/>
+    </bean>
+
+    <bean id="loginView" class="org.academiadecodigo.javabank.view.LoginView">
+        <property name="prompt" ref="prompt"/>
+        <property name="loginController" ref="loginController"/>
+    </bean>
+
+    <bean id="mainView" class="org.academiadecodigo.javabank.view.MainView">
+        <property name="prompt" ref="prompt"/>
+        <property name="mainController" ref="mainController"/>
+    </bean>
 </beans>

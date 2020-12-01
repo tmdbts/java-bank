@@ -3,4 +3,17 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <bean id="accountService" class="org.academiadecodigo.javabank.services.AccountServiceImpl">
+        <property name="accountDao" ref="jpaAccountDao"/>
+        <property name="transactionManager" ref="jpaTransactionManager"/>
+    </bean>
+
+    <bean id="authService" class="org.academiadecodigo.javabank.services.AuthServiceImpl">
+        <property name="customerService" ref="customerService"/>
+    </bean>
+
+    <bean id="customerService" class="org.academiadecodigo.javabank.services.CustomerServiceImpl">
+        <property name="transactionManager" ref="jpaTransactionManager"/>
+        <property name="customerDao" ref="jpaCustomerDao"/>
+    </bean>
 </beans>

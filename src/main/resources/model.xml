@@ -3,4 +3,21 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <bean id="recipient" class="org.academiadecodigo.javabank.model.Recipient">
+        <property name="customer" ref="customer"/>
+    </bean>
+
+    <bean id="customer" class="org.academiadecodigo.javabank.model.Customer">
+    </bean>
+
+    <bean id="checkingAccount" class="org.academiadecodigo.javabank.model.account.CheckingAccount">
+        <property name="customer" ref="customer"/>
+    </bean>
+
+    <bean id="savingsAccount" class="org.academiadecodigo.javabank.model.account.SavingsAccount">
+        <property name="customer" ref="customer"/>
+    </bean>
+
+    <bean id="model" class="org.academiadecodigo.javabank.model.Model" abstract="true">
+    </bean>
 </beans>

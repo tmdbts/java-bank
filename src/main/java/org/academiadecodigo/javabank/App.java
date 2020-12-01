@@ -10,12 +10,16 @@ import org.academiadecodigo.javabank.persistence.jpa.JpaTransactionManager;
 import org.academiadecodigo.javabank.services.AccountServiceImpl;
 import org.academiadecodigo.javabank.services.AuthServiceImpl;
 import org.academiadecodigo.javabank.services.CustomerServiceImpl;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import javax.persistence.EntityManagerFactory;
 
 public class App {
 
     public static void main(String[] args) {
+
+        ApplicationContext context = new FileSystemXmlApplicationContext("src/main/resources/spring-config.xml");
 
         JpaBootstrap jpa = new JpaBootstrap();
         EntityManagerFactory emf = jpa.start();
