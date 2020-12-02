@@ -1,7 +1,7 @@
 package org.academiadecodigo.javabank.controller;
 
-import org.academiadecodigo.javabank.model.Customer;
-import org.academiadecodigo.javabank.model.Recipient;
+import org.academiadecodigo.javabank.persistence.model.Customer;
+import org.academiadecodigo.javabank.persistence.model.Recipient;
 import org.academiadecodigo.javabank.services.CustomerService;
 import org.academiadecodigo.javabank.view.RecipientsView;
 
@@ -30,9 +30,7 @@ public class RecipientsController extends AbstractController {
      * @see CustomerService#listRecipients(Integer)
      */
     public List<Recipient> getRecipients() {
-
         Customer customer = authService.getAccessingCustomer();
-        
         return customerService.listRecipients(customer.getId());
     }
 }

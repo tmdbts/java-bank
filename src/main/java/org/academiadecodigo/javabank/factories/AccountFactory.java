@@ -1,10 +1,9 @@
 package org.academiadecodigo.javabank.factories;
 
-
-import org.academiadecodigo.javabank.model.account.Account;
-import org.academiadecodigo.javabank.model.account.AccountType;
-import org.academiadecodigo.javabank.model.account.CheckingAccount;
-import org.academiadecodigo.javabank.model.account.SavingsAccount;
+import org.academiadecodigo.javabank.persistence.model.account.Account;
+import org.academiadecodigo.javabank.persistence.model.account.AccountType;
+import org.academiadecodigo.javabank.persistence.model.account.CheckingAccount;
+import org.academiadecodigo.javabank.persistence.model.account.SavingsAccount;
 
 /**
  * A factory for creating accounts of different types
@@ -20,7 +19,6 @@ public class AccountFactory {
     public Account createAccount(AccountType accountType) {
 
         Account newAccount;
-        
         switch (accountType) {
             case CHECKING:
                 newAccount = new CheckingAccount();
@@ -30,6 +28,7 @@ public class AccountFactory {
                 break;
             default:
                 newAccount = null;
+
         }
 
         return newAccount;

@@ -1,6 +1,6 @@
 package org.academiadecodigo.javabank.services;
 
-import org.academiadecodigo.javabank.model.account.Account;
+import org.academiadecodigo.javabank.persistence.model.account.Account;
 import org.academiadecodigo.javabank.persistence.TransactionException;
 import org.academiadecodigo.javabank.persistence.TransactionManager;
 import org.academiadecodigo.javabank.persistence.dao.AccountDao;
@@ -40,9 +40,10 @@ public class AccountServiceImpl implements AccountService {
     public Account get(Integer id) {
 
         try {
-            tx.beginRead();
 
+            tx.beginRead();
             return accountDao.findById(id);
+
         } finally {
             tx.commit();
         }
@@ -57,11 +58,14 @@ public class AccountServiceImpl implements AccountService {
         Integer id = null;
 
         try {
+
             tx.beginWrite();
 
             id = accountDao.saveOrUpdate(account).getId();
 
             tx.commit();
+
+
         } catch (TransactionException ex) {
 
             tx.rollback();
@@ -77,21 +81,24 @@ public class AccountServiceImpl implements AccountService {
     public void deposit(Integer id, double amount) {
 
         try {
+
             tx.beginWrite();
 
-            Optional<Account> account = Optional.ofNullable(accountDao.findById(id));
+            Optional<Account> accountOptional = Optional.ofNullable(accountDao.findById(id));
 
-            if (!account.isPresent()) {
+            if (!accountOptional.isPresent()) {
                 tx.rollback();
             }
 
-            account.orElseThrow(() -> new IllegalArgumentException("invalid account id"))
+            accountOptional.orElseThrow(() -> new IllegalArgumentException("invalid account id"))
                     .credit(amount);
 
-            accountDao.saveOrUpdate(account.get());
+            accountDao.saveOrUpdate(accountOptional.get());
 
             tx.commit();
+
         } catch (TransactionException ex) {
+
             tx.rollback();
         }
     }
@@ -103,21 +110,24 @@ public class AccountServiceImpl implements AccountService {
     public void withdraw(Integer id, double amount) {
 
         try {
+
             tx.beginWrite();
 
-            Optional<Account> account = Optional.ofNullable(accountDao.findById(id));
+            Optional<Account> accountOptional = Optional.ofNullable(accountDao.findById(id));
 
-            if (!account.isPresent()) {
+            if (!accountOptional.isPresent()) {
                 tx.rollback();
             }
 
-            account.orElseThrow(() -> new IllegalArgumentException("invalid account id"))
+            accountOptional.orElseThrow(() -> new IllegalArgumentException("invalid account id"))
                     .debit(amount);
 
-            accountDao.saveOrUpdate(account.get());
+            accountDao.saveOrUpdate(accountOptional.get());
 
             tx.commit();
+
         } catch (TransactionException ex) {
+
             tx.rollback();
         }
     }
@@ -129,6 +139,7 @@ public class AccountServiceImpl implements AccountService {
     public void transfer(Integer srcId, Integer dstId, double amount) {
 
         try {
+
             tx.beginWrite();
 
             Optional<Account> srcAccount = Optional.ofNullable(accountDao.findById(srcId));
@@ -150,7 +161,9 @@ public class AccountServiceImpl implements AccountService {
             accountDao.saveOrUpdate(dstAccount.get());
 
             tx.commit();
+
         } catch (TransactionException ex) {
+
             tx.rollback();
         }
     }

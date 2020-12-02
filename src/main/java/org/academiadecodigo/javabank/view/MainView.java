@@ -32,7 +32,6 @@ public class MainView extends AbstractView {
     private void showMenu() {
 
         MenuInputScanner scanner = new MenuInputScanner(UserOptions.getMessages());
-        
         scanner.setError(Messages.VIEW_MAIN_ERROR);
         scanner.setMessage("\n" + Messages.VIEW_MAIN_MESSAGE + mainController.getCustomerName());
         mainController.onMenuSelection(prompt.getUserInput(scanner));

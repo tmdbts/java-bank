@@ -40,7 +40,7 @@ public class AccountTransactionView extends AbstractView {
     }
 
     private void showNoAccounts() {
-        System.out.println("\n" + Messages.VIEW_ACCOUNT_TRANSACTION_NO_ACCOUNT_ERROR);
+        System.out.println("\n" + Messages.VIEW_ACCOUNT_TRANSACTION_NOACCOUNT_ERROR);
     }
 
     private void showAccounts() {
@@ -62,20 +62,16 @@ public class AccountTransactionView extends AbstractView {
     private int scanAccount() {
 
         IntegerSetInputScanner scanner = new IntegerSetInputScanner(transactionController.getAccountIds());
-
-        scanner.setMessage(Messages.VIEW_ACCOUNT_TRANSACTION_ACCOUNT_ID_MESSAGE);
+        scanner.setMessage(Messages.VIEW_ACCOUNT_TRANSACTION_ACCOUNTID_MESSAGE);
         scanner.setError(Messages.VIEW_ACCOUNT_TRANSACTION_INVALID_ACCOUNT_ERROR);
-
         return prompt.getUserInput(scanner);
     }
 
     private double scanAmount() {
 
         DoubleInputScanner scanner = new DoubleInputScanner();
-
         scanner.setMessage(Messages.VIEW_ACCOUNT_TRANSACTION_AMOUNT_MESSAGE);
         scanner.setError(Messages.VIEW_ACCOUNT_TRANSACTION_INVALID_AMOUNT_ERROR);
-
         return prompt.getUserInput(scanner);
     }
 }
