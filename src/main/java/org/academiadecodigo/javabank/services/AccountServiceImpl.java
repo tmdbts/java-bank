@@ -1,11 +1,10 @@
 package org.academiadecodigo.javabank.services;
 
-import org.academiadecodigo.javabank.model.account.Account;
+import org.academiadecodigo.javabank.persistence.model.account.Account;
 import org.academiadecodigo.javabank.persistence.TransactionException;
 import org.academiadecodigo.javabank.persistence.TransactionManager;
 import org.academiadecodigo.javabank.persistence.dao.AccountDao;
 
-import java.lang.management.OperatingSystemMXBean;
 import java.util.Optional;
 
 /**
@@ -66,6 +65,7 @@ public class AccountServiceImpl implements AccountService {
 
             tx.commit();
 
+
         } catch (TransactionException ex) {
 
             tx.rollback();
@@ -84,16 +84,16 @@ public class AccountServiceImpl implements AccountService {
 
             tx.beginWrite();
 
-            Optional<Account> account = Optional.ofNullable(accountDao.findById(id));
+            Optional<Account> accountOptional = Optional.ofNullable(accountDao.findById(id));
 
-            if (!account.isPresent()) {
+            if (!accountOptional.isPresent()) {
                 tx.rollback();
             }
 
-            account.orElseThrow(() -> new IllegalArgumentException("invalid account id"))
+            accountOptional.orElseThrow(() -> new IllegalArgumentException("invalid account id"))
                     .credit(amount);
 
-            accountDao.saveOrUpdate(account.get());
+            accountDao.saveOrUpdate(accountOptional.get());
 
             tx.commit();
 
@@ -113,16 +113,16 @@ public class AccountServiceImpl implements AccountService {
 
             tx.beginWrite();
 
-            Optional<Account> account = Optional.ofNullable(accountDao.findById(id));
+            Optional<Account> accountOptional = Optional.ofNullable(accountDao.findById(id));
 
-            if (!account.isPresent()) {
+            if (!accountOptional.isPresent()) {
                 tx.rollback();
             }
 
-            account.orElseThrow(() -> new IllegalArgumentException("invalid account id"))
+            accountOptional.orElseThrow(() -> new IllegalArgumentException("invalid account id"))
                     .debit(amount);
 
-            accountDao.saveOrUpdate(account.get());
+            accountDao.saveOrUpdate(accountOptional.get());
 
             tx.commit();
 

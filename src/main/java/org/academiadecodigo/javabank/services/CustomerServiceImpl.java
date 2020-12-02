@@ -1,9 +1,9 @@
 package org.academiadecodigo.javabank.services;
 
-import org.academiadecodigo.javabank.model.AbstractModel;
-import org.academiadecodigo.javabank.model.Customer;
-import org.academiadecodigo.javabank.model.Recipient;
-import org.academiadecodigo.javabank.model.account.Account;
+import org.academiadecodigo.javabank.persistence.model.AbstractModel;
+import org.academiadecodigo.javabank.persistence.model.Customer;
+import org.academiadecodigo.javabank.persistence.model.Recipient;
+import org.academiadecodigo.javabank.persistence.model.account.Account;
 import org.academiadecodigo.javabank.persistence.TransactionManager;
 import org.academiadecodigo.javabank.persistence.dao.CustomerDao;
 
@@ -15,8 +15,8 @@ import java.util.stream.Collectors;
  */
 public class CustomerServiceImpl implements CustomerService {
 
-    private CustomerDao customerDao;
     private TransactionManager tx;
+    private CustomerDao customerDao;
 
     /**
      * Sets the customer data access object
