@@ -6,6 +6,7 @@ import org.academiadecodigo.javabank.persistence.model.Recipient;
 import org.academiadecodigo.javabank.persistence.model.account.Account;
 import org.academiadecodigo.javabank.persistence.TransactionManager;
 import org.academiadecodigo.javabank.persistence.dao.CustomerDao;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -39,80 +40,52 @@ public class CustomerServiceImpl implements CustomerService {
     /**
      * @see CustomerService#get(Integer)
      */
+    @Transactional
     @Override
     public Customer get(Integer id) {
-
-        try {
-
-            tx.beginRead();
-            return customerDao.findById(id);
-
-        } finally {
-            tx.commit();
-        }
+        return customerDao.findById(id);
     }
 
     /**
      * @see CustomerService#getBalance(Integer)
      */
+    @Transactional
     @Override
     public double getBalance(Integer id) {
 
-        try {
+        Customer customer = Optional.ofNullable(customerDao.findById(id))
+                .orElseThrow(() -> new IllegalArgumentException("Customer does not exist"));
 
-            tx.beginRead();
-
-            Customer customer = Optional.ofNullable(customerDao.findById(id))
-                    .orElseThrow(() -> new IllegalArgumentException("Customer does not exist"));
-
-            return customer.getAccounts().stream()
-                    .mapToDouble(Account::getBalance)
-                    .sum();
-
-        } finally {
-            tx.commit();
-        }
+        return customer.getAccounts().stream()
+                .mapToDouble(Account::getBalance)
+                .sum();
     }
 
     /**
      * @see CustomerService#listCustomerAccountIds(Integer)
      */
+    @Transactional
     @Override
     public Set<Integer> listCustomerAccountIds(Integer id) {
 
-        try {
+        Customer customer = Optional.ofNullable(customerDao.findById(id))
+                .orElseThrow(() -> new IllegalArgumentException("Customer does not exist"));
 
-            tx.beginRead();
-
-            Customer customer = Optional.ofNullable(customerDao.findById(id))
-                    .orElseThrow(() -> new IllegalArgumentException("Customer does not exist"));
-
-            return customer.getAccounts().stream()
-                    .map(AbstractModel::getId)
-                    .collect(Collectors.toSet());
-
-        } finally {
-            tx.commit();
-        }
+        return customer.getAccounts().stream()
+                .map(AbstractModel::getId)
+                .collect(Collectors.toSet());
     }
 
     /**
      * @see CustomerService#listRecipients(Integer)
      */
+    @Transactional
     @Override
     public List<Recipient> listRecipients(Integer id) {
 
-        try {
+        Customer customer = Optional.ofNullable(customerDao.findById(id))
+                .orElseThrow(() -> new IllegalArgumentException("Customer does not exist"));
 
-            tx.beginRead();
-
-            Customer customer = Optional.ofNullable(customerDao.findById(id))
-                    .orElseThrow(() -> new IllegalArgumentException("Customer does not exist"));
-
-            return new ArrayList<>(customer.getRecipients());
-
-        } finally {
-            tx.commit();
-        }
+        return new ArrayList<>(customer.getRecipients());
     }
 }

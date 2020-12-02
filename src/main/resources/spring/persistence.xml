@@ -10,8 +10,8 @@
 
     <bean id="sessionManager" class="org.academiadecodigo.javabank.persistence.jpa.JpaSessionManager"/>
 
-    <bean id="transactionManager" class="org.academiadecodigo.javabank.persistence.jpa.JpaTransactionManager">
-        <property name="sm" ref="sessionManager"/>
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="emFactory"/>
     </bean>
 
     <bean id="accountDao" class="org.academiadecodigo.javabank.persistence.dao.jpa.JpaAccountDao">
