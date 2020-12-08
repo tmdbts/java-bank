@@ -68,6 +68,7 @@ public enum UserOptions {
         return message;
     }
 
+
     /**
      * Gets the messages for the options the user can perform
      *

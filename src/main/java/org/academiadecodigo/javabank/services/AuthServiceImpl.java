@@ -2,8 +2,6 @@ package org.academiadecodigo.javabank.services;
 
 import org.academiadecodigo.javabank.persistence.model.Customer;
 
-import java.util.Optional;
-
 /**
  * An {@link AuthService} implementation
  */
@@ -27,11 +25,14 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public boolean authenticate(Integer id) {
 
-        Optional<Customer> customerOptional = Optional.ofNullable(customerService.get(id));
+        Customer customer = customerService.get(id);
 
-        customerOptional.ifPresent(customer -> accessingCustomerId = customer.getId());
+        if (customer == null) {
+            return false;
+        }
 
-        return customerOptional.isPresent();
+        accessingCustomerId = customer.getId();
+        return true;
     }
 
     /**
