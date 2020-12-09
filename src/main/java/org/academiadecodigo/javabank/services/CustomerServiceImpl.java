@@ -5,6 +5,8 @@ import org.academiadecodigo.javabank.persistence.model.Customer;
 import org.academiadecodigo.javabank.persistence.model.Recipient;
 import org.academiadecodigo.javabank.persistence.model.account.Account;
 import org.academiadecodigo.javabank.persistence.dao.CustomerDao;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
@@ -13,6 +15,7 @@ import java.util.stream.Collectors;
 /**
  * An {@link CustomerService} implementation
  */
+@Service
 public class CustomerServiceImpl implements CustomerService {
 
     private CustomerDao customerDao;
@@ -22,6 +25,7 @@ public class CustomerServiceImpl implements CustomerService {
      *
      * @param customerDao the account DAO to set
      */
+    @Autowired
     public void setCustomerDao(CustomerDao customerDao) {
         this.customerDao = customerDao;
     }
@@ -49,6 +53,14 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     /**
+     * @see CustomerService#list()
+     */
+    @Override
+    public List<Customer> list() {
+        return customerDao.findAll();
+    }
+
+    /**
      * @see CustomerService#listCustomerAccountIds(Integer)
      */
     @Override
@@ -68,6 +80,9 @@ public class CustomerServiceImpl implements CustomerService {
     @Transactional(readOnly = true)
     @Override
     public List<Recipient> listRecipients(Integer id) {
+
+        // check then act logic requires transaction,
+        // event if read only
 
         Customer customer = Optional.ofNullable(customerDao.findById(id))
                 .orElseThrow(() -> new IllegalArgumentException("Customer does not exist"));
