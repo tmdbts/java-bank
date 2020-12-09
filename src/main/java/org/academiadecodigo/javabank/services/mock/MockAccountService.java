@@ -2,10 +2,14 @@ package org.academiadecodigo.javabank.services.mock;
 
 import org.academiadecodigo.javabank.persistence.model.account.Account;
 import org.academiadecodigo.javabank.services.AccountService;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Service;
 
 /**
  * A mock {@link AccountService} implementation
  */
+@Service
+@Profile("test")
 public class MockAccountService extends AbstractMockService<Account> implements AccountService {
 
     /**

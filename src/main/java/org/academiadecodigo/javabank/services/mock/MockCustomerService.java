@@ -5,8 +5,9 @@ import org.academiadecodigo.javabank.persistence.model.Customer;
 import org.academiadecodigo.javabank.persistence.model.Recipient;
 import org.academiadecodigo.javabank.persistence.model.account.Account;
 import org.academiadecodigo.javabank.services.CustomerService;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -14,6 +15,9 @@ import java.util.stream.Collectors;
 /**
  * A mock {@link CustomerService} implementation
  */
+@Service
+
+@Profile("test")
 public class MockCustomerService extends AbstractMockService<Customer> implements CustomerService {
 
     /**
