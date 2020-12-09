@@ -27,12 +27,4 @@ public class SpringBootstrap implements ApplicationListener<ContextRefreshedEven
         }
     }
 
-    public String asd(@SessionAttribute("name") String name) {
-        
-    }
-
-    @ModelAttribute("name")
-    public String getName() {
-        return "sid";
-    }
 }
