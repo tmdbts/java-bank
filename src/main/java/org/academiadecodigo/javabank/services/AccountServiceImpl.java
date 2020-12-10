@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+import static org.academiadecodigo.javabank.errors.ErrorMessage.ACCOUNT_NOT_FOUND;
+
 /**
  * An {@link AccountService} implementation
  */
@@ -91,5 +93,3 @@ public class AccountServiceImpl implements AccountService {
         accountDao.saveOrUpdate(dstAccount.get());
     }
 }
-
-

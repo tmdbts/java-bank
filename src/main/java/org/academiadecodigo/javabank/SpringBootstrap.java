@@ -3,8 +3,6 @@ package org.academiadecodigo.javabank;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.SessionAttribute;
 
 /**
  * An {@link ApplicationListener} implementation that is notified on each {@link ContextRefreshedEvent}
@@ -26,5 +24,4 @@ public class SpringBootstrap implements ApplicationListener<ContextRefreshedEven
             System.out.println("=> " + profile);
         }
     }
-
 }
