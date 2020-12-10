@@ -51,8 +51,10 @@ public interface CustomerService {
     /**
      * Removes a recipient from the customer
      *
-     * @param id the customer id
+     * @param id          the customer id
      * @param recipientId the recipient id
      */
     void removeRecipient(Integer id, Integer recipientId);
+
+    Customer createCustomer(Customer customer);
 }

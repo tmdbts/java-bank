@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <thymeleaf th:replace="header :: header" />
+    <thymeleaf th:replace="header :: header"/>
 </head>
 <body>
 <div class="container">
@@ -15,6 +15,7 @@
                 <th>Email</th>
                 <th>Phone</th>
                 <th>Show</th>
+                <th>Edit</th>
                 <th>Delete</th>
             </tr>
             <tr th:each="customer : ${customers}">
@@ -24,10 +25,12 @@
                 <td th:text="${customer.email}"></td>
                 <td th:text="${customer.phone}"></td>
                 <td><a th:href="@{'/customer/' + ${customer.id}}">View</a></td>
+                <td><a th:href="@{'/customer/edit/'}">Edit</a></td>
                 <td><a th:href="@{'/customer/' + ${customer.id} + '/delete'}">Delete</a></td>
             </tr>
         </table>
     </div>
+    <a th:href="@{/customer/create/}">Create Customer</a>
 </div>
 </body>
 </html>
