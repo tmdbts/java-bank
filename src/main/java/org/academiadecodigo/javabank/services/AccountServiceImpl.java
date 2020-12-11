@@ -1,14 +1,13 @@
 package org.academiadecodigo.javabank.services;
 
-import org.academiadecodigo.javabank.persistence.model.account.Account;
 import org.academiadecodigo.javabank.persistence.dao.AccountDao;
+import org.academiadecodigo.javabank.persistence.model.account.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
-
-import static org.academiadecodigo.javabank.errors.ErrorMessage.ACCOUNT_NOT_FOUND;
+import static org.academiadecodigo.javabank.errors.ErrorMessage.*;
 
 /**
  * An {@link AccountService} implementation
@@ -80,8 +79,8 @@ public class AccountServiceImpl implements AccountService {
         Optional<Account> srcAccount = Optional.ofNullable(accountDao.findById(srcId));
         Optional<Account> dstAccount = Optional.ofNullable(accountDao.findById(dstId));
 
-        srcAccount.orElseThrow(() -> new IllegalArgumentException("invalid account id"));
-        dstAccount.orElseThrow(() -> new IllegalArgumentException("invalid account id"));
+        srcAccount.orElseThrow(() -> new IllegalArgumentException(ACCOUNT_NOT_FOUND));
+        dstAccount.orElseThrow(() -> new IllegalArgumentException(ACCOUNT_NOT_FOUND));
 
         // make sure transaction can be performed
         if (srcAccount.get().canDebit(amount) && dstAccount.get().canCredit(amount)) {
@@ -93,3 +92,5 @@ public class AccountServiceImpl implements AccountService {
         accountDao.saveOrUpdate(dstAccount.get());
     }
 }
+
+

@@ -1,5 +1,6 @@
 package org.academiadecodigo.javabank.services;
 
+import org.academiadecodigo.javabank.persistence.model.AbstractModel;
 import org.academiadecodigo.javabank.persistence.model.Customer;
 import org.academiadecodigo.javabank.persistence.model.Recipient;
 import org.academiadecodigo.javabank.persistence.model.account.Account;
@@ -10,9 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.academiadecodigo.javabank.errors.ErrorMessage.*;
 
@@ -59,6 +59,7 @@ public class CustomerServiceImpl implements CustomerService {
     /**
      * @see CustomerService#get(Integer)
      */
+    @Override
     public Customer get(Integer id) {
         return customerDao.findById(id);
     }
@@ -75,6 +76,15 @@ public class CustomerServiceImpl implements CustomerService {
         return customer.getAccounts().stream()
                 .mapToDouble(Account::getBalance)
                 .sum();
+    }
+
+    /**
+     * @see CustomerService#save(Customer)
+     */
+    @Transactional
+    @Override
+    public Customer save(Customer customer) {
+        return customerDao.saveOrUpdate(customer);
     }
 
     /**
@@ -110,6 +120,25 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     /**
+     * @see CustomerService#addRecipient(Integer, Recipient)
+     */
+    @Transactional
+    @Override
+    public void addRecipient(Integer id, Recipient recipient) {
+
+        Customer customer = Optional.ofNullable(customerDao.findById(id))
+                .orElseThrow(() -> new IllegalArgumentException(CUSTOMER_NOT_FOUND));
+
+        if (accountDao.findById(recipient.getAccountNumber()) == null ||
+                getAccountIds(customer).contains(recipient.getAccountNumber())) {
+            throw new IllegalArgumentException("Invalid account number");
+        }
+
+        customer.addRecipient(recipient);
+        customerDao.saveOrUpdate(customer);
+    }
+
+    /**
      * @see CustomerService#removeRecipient(Integer, Integer)
      */
     @Transactional
@@ -129,4 +158,13 @@ public class CustomerServiceImpl implements CustomerService {
         customer.removeRecipient(recipient);
         customerDao.saveOrUpdate(customer);
     }
+
+    private Set<Integer> getAccountIds(Customer customer) {
+        List<Account> accounts = customer.getAccounts();
+
+        return accounts.stream()
+                .map(AbstractModel::getId)
+                .collect(Collectors.toSet());
+    }
 }
+
