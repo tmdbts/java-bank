@@ -1,5 +1,7 @@
 package org.academiadecodigo.javabank.services;
 
+import org.academiadecodigo.javabank.exceptions.JavaBankException;
+import org.academiadecodigo.javabank.exceptions.RecipientNotFoundException;
 import org.academiadecodigo.javabank.persistence.dao.RecipientDao;
 import org.academiadecodigo.javabank.persistence.model.Recipient;
 import org.junit.Before;
@@ -24,7 +26,7 @@ public class RecipientServiceImplTest {
     }
 
     @Test
-    public void testGet() {
+    public void testGet() throws JavaBankException {
 
         // setup
         int fakeId = 9999;

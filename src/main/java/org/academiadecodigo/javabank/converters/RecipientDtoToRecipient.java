@@ -1,6 +1,7 @@
 package org.academiadecodigo.javabank.converters;
 
 import org.academiadecodigo.javabank.command.RecipientDto;
+import org.academiadecodigo.javabank.exceptions.RecipientNotFoundException;
 import org.academiadecodigo.javabank.persistence.model.Recipient;
 import org.academiadecodigo.javabank.services.RecipientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +31,10 @@ public class RecipientDtoToRecipient implements Converter<RecipientDto, Recipien
      *
      * @param recipientDto the recipient dto
      * @return the recipient object
+     * @throws RecipientNotFoundException if recipient doesn't exist
      */
     @Override
-    public Recipient convert(RecipientDto recipientDto) {
+    public Recipient convert(RecipientDto recipientDto) throws RecipientNotFoundException {
 
         Recipient recipient = (recipientDto.getId() != null ? recipientService.get(recipientDto.getId()) : new Recipient());
 

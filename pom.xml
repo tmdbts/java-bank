@@ -3,7 +3,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.academiadecodigo.javabank</groupId>
-    <artifactId>javabank-step11-add-edit</artifactId>
+    <artifactId>javabank-step12-log-validations</artifactId>
     <version>0.0.1</version>
     <packaging>war</packaging>
     <name>Java Bank Webapp</name>
@@ -49,6 +49,7 @@
             <scope>test</scope>
         </dependency>
 
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
@@ -86,10 +87,17 @@
         </dependency>
 
         <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version> 6.0.2.Final</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
             <artifactId>hibernate-jpa-2.1-api</artifactId>
             <version>1.0.0.Final</version>
         </dependency>
+
 
         <dependency>
             <groupId>com.h2database</groupId>
@@ -113,6 +121,24 @@
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
             <version>2.3.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.10.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.10.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-web</artifactId>
+            <version>2.10.0</version>
         </dependency>
 
     </dependencies>
@@ -139,7 +165,7 @@
                 <configuration>
                     <url>http://localhost:8080/manager/text</url>
                     <server>tomcat</server>
-                    <path>/javabank3</path>
+                    <path>/javabank4</path>
                 </configuration>
             </plugin>
 
