@@ -1,14 +1,16 @@
-package org.academiadecodigo.javabank.controller;
+package org.academiadecodigo.javabank.controller.web;
 
+import org.academiadecodigo.javabank.command.AccountDto;
+import org.academiadecodigo.javabank.command.AccountTransactionDto;
 import org.academiadecodigo.javabank.command.CustomerDto;
+import org.academiadecodigo.javabank.command.TransferDto;
 import org.academiadecodigo.javabank.converters.AccountToAccountDto;
 import org.academiadecodigo.javabank.converters.CustomerDtoToCustomer;
 import org.academiadecodigo.javabank.converters.CustomerToCustomerDto;
-import org.academiadecodigo.javabank.converters.RecipientToRecipientDto;
 import org.academiadecodigo.javabank.exceptions.AssociationExistsException;
 import org.academiadecodigo.javabank.exceptions.CustomerNotFoundException;
-import org.academiadecodigo.javabank.exceptions.JavaBankException;
 import org.academiadecodigo.javabank.persistence.model.Customer;
+import org.academiadecodigo.javabank.persistence.model.account.AccountType;
 import org.academiadecodigo.javabank.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,7 +36,6 @@ public class CustomerController {
     private CustomerToCustomerDto customerToCustomerDto;
     private CustomerDtoToCustomer customerDtoToCustomer;
     private AccountToAccountDto accountToAccountDto;
-    private RecipientToRecipientDto recipientToRecipientDto;
 
     /**
      * Sets the customer service
@@ -47,9 +48,9 @@ public class CustomerController {
     }
 
     /**
-     * Sets the converter for converting between customer model objects and customer form objects
+     * Sets the converter for converting between customer model objects and customer DTO
      *
-     * @param customerToCustomerDto the customer to customer form converter to set
+     * @param customerToCustomerDto the customer to customer DTO converter to set
      */
     @Autowired
     public void setCustomerToCustomerDto(CustomerToCustomerDto customerToCustomerDto) {
@@ -57,9 +58,9 @@ public class CustomerController {
     }
 
     /**
-     * Sets the converter for converting between customer form and customer model objects
+     * Sets the converter for converting between customer DTO and customer model objects
      *
-     * @param customerDtoToCustomer the customer form to customer converter to set
+     * @param customerDtoToCustomer the customer DTO to customer converter to set
      */
     @Autowired
     public void setCustomerDtoToCustomer(CustomerDtoToCustomer customerDtoToCustomer) {
@@ -67,9 +68,9 @@ public class CustomerController {
     }
 
     /**
-     * Sets the converter for converting between account objects and account dto objects
+     * Sets the converter for converting between account model object and account DTO
      *
-     * @param accountToAccountDto the account to account dto converter to set
+     * @param accountToAccountDto the account model object to account DTO converter to set
      */
     @Autowired
     public void setAccountToAccountDto(AccountToAccountDto accountToAccountDto) {
@@ -77,24 +78,13 @@ public class CustomerController {
     }
 
     /**
-     * Sets the converter for converting between recipient model objects and recipient form objects
-     *
-     * @param recipientToRecipientDto the recipient to recipient form converter to set
-     */
-    @Autowired
-    public void setRecipientToRecipientDto(RecipientToRecipientDto recipientToRecipientDto) {
-        this.recipientToRecipientDto = recipientToRecipientDto;
-    }
-
-    /**
      * Renders a view with a list of customers
      *
      * @param model the model object
      * @return the view to render
-     * @throws JavaBankException if cannot convert customer to customer Dto
      */
     @RequestMapping(method = RequestMethod.GET, path = {"/list", "/", ""})
-    public String listCustomers(Model model) throws JavaBankException {
+    public String listCustomers(Model model) {
         model.addAttribute("customers", customerToCustomerDto.convert(customerService.list()));
         return "customer/list";
     }
@@ -117,10 +107,9 @@ public class CustomerController {
      * @param id    the customer id
      * @param model the model object
      * @return the view to render
-     * @throws CustomerNotFoundException if customer doesn't exist
      */
     @RequestMapping(method = RequestMethod.GET, path = "/{id}/edit")
-    public String editCustomer(@PathVariable Integer id, Model model) throws CustomerNotFoundException{
+    public String editCustomer(@PathVariable Integer id, Model model) {
         model.addAttribute("customer", customerToCustomerDto.convert(customerService.get(id)));
         return "customer/add-update";
     }
@@ -131,32 +120,41 @@ public class CustomerController {
      * @param id    the customer id
      * @param model the model object
      * @return the view to render
-     * @throws JavaBankException if customer doesn't exist or if cannot convert account to account Dto
+     * @throws Exception
      */
     @RequestMapping(method = RequestMethod.GET, path = "/{id}")
-    public String showCustomer(@PathVariable Integer id, Model model) throws JavaBankException {
+    public String showCustomer(@PathVariable Integer id, Model model) throws Exception {
 
         Customer customer = customerService.get(id);
 
+        // command objects for customer show view
         model.addAttribute("customer", customerToCustomerDto.convert(customer));
         model.addAttribute("accounts", accountToAccountDto.convert(customer.getAccounts()));
-        model.addAttribute("recipients", recipientToRecipientDto.convert(customerService.listRecipients(id)));
+        model.addAttribute("accountTypes", AccountType.list());
+        model.addAttribute("customerBalance", customerService.getBalance(id));
+
+        // command objects for modals
+        AccountDto accountDto = new AccountDto();
+        AccountTransactionDto accountTransactionDto = new AccountTransactionDto();
+        accountTransactionDto.setId(id);
+
+        model.addAttribute("account", accountDto);
+        model.addAttribute("accountTransaction", accountTransactionDto);
+
+        model.addAttribute("transfer", new TransferDto());
         return "customer/show";
     }
 
     /**
-     * Saves the customer form submission and renders a view with the customer details
+     * Saves the customer form submission and renders a view
      *
-     * @param customerDto        the customer form object
-     * @param redirectAttributes the redirect attributes object
+     * @param customerDto        the customer DTO object
      * @param bindingResult      the binding result object
+     * @param redirectAttributes the redirect attributes object
      * @return the view to render
-     * @throws CustomerNotFoundException if customer doesn't exist
      */
     @RequestMapping(method = RequestMethod.POST, path = {"/", ""}, params = "action=save")
-    public String saveCustomer(@Valid @ModelAttribute("customer") CustomerDto customerDto, BindingResult bindingResult, RedirectAttributes redirectAttributes) throws CustomerNotFoundException {
-
-        System.out.println(bindingResult.getModel());
+    public String saveCustomer(@Valid @ModelAttribute("customer") CustomerDto customerDto, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
             return "customer/add-update";
@@ -169,7 +167,7 @@ public class CustomerController {
     }
 
     /**
-     * Cancels the customer submission and renders the default customer view
+     * Cancels the customer submission and renders the default the customer view
      *
      * @return the view to render
      */
@@ -182,17 +180,17 @@ public class CustomerController {
     /**
      * Deletes the customer and renders the default customer view
      *
-     * @param id the customer id
+     * @param id                 the customer id
+     * @param redirectAttributes the redirect attributes object
      * @return the view to render
-     * @throws CustomerNotFoundException if customer doesn't exist
-     * @throws AssociationExistsException if the customer you are trying to delete has associated accounts
+     * @throws AssociationExistsException
+     * @throws CustomerNotFoundException
      */
-    @RequestMapping(method = RequestMethod.GET, path = "/{id}/delete")
-    public String deleteCustomer(@PathVariable Integer id, RedirectAttributes redirectAttributes) throws CustomerNotFoundException, AssociationExistsException {
+    @RequestMapping(method = RequestMethod.GET, path = "{id}/delete")
+    public String deleteCustomer(@PathVariable Integer id, RedirectAttributes redirectAttributes) throws AssociationExistsException, CustomerNotFoundException {
         Customer customer = customerService.get(id);
         customerService.delete(id);
         redirectAttributes.addFlashAttribute("lastAction", "Deleted " + customer.getFirstName() + " " + customer.getLastName());
         return "redirect:/customer";
     }
-
 }

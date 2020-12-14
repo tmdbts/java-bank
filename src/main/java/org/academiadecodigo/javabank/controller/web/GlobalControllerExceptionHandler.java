@@ -1,7 +1,6 @@
-package org.academiadecodigo.javabank.controller;
+package org.academiadecodigo.javabank.controller.web;
 
 import org.academiadecodigo.javabank.exceptions.JavaBankException;
-import org.academiadecodigo.javabank.exceptions.NotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
@@ -19,21 +18,6 @@ import java.util.Date;
  */
 @ControllerAdvice
 public class GlobalControllerExceptionHandler {
-
-    /**
-     * Renders the not found page view
-     *
-     * @param ex the thrown exception
-     * @return the response
-     */
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(value = NotFoundException.class)
-    public ModelAndView handleNotFoundErrors(HttpServletRequest req, NotFoundException ex) {
-
-        logException(ex);
-
-        return handleError(HttpStatus.NOT_FOUND, req, ex);
-    }
 
     /**
      * Renders the bad request page view
@@ -69,7 +53,7 @@ public class GlobalControllerExceptionHandler {
 
         ModelAndView model = new ModelAndView();
 
-        model.addObject("error", status == HttpStatus.INTERNAL_SERVER_ERROR ? "please try again later" : ex.getMessage());
+        model.addObject("error", status == HttpStatus.BAD_REQUEST ? ex.getMessage() : "please try again later");
         model.addObject("status", status);
         model.addObject("url", req.getRequestURL());
         model.addObject("timestamp", new Date().toString());
@@ -85,6 +69,7 @@ public class GlobalControllerExceptionHandler {
 
         String throwingClassName = ex.getStackTrace()[0].getClassName();
         String throwingMethodName = ex.getStackTrace()[0].getMethodName();
+
 
         Logger logger = LogManager.getLogger(throwingClassName);
         logger.error(errorOrigin + " error on " + throwingMethodName + "() - " + ex.getMessage());

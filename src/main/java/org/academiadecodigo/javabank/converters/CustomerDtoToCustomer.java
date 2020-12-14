@@ -1,7 +1,6 @@
 package org.academiadecodigo.javabank.converters;
 
 import org.academiadecodigo.javabank.command.CustomerDto;
-import org.academiadecodigo.javabank.exceptions.CustomerNotFoundException;
 import org.academiadecodigo.javabank.persistence.model.Customer;
 import org.academiadecodigo.javabank.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,14 +26,13 @@ public class CustomerDtoToCustomer implements Converter<CustomerDto, Customer> {
     }
 
     /**
-     * Converts the customer dto object into a customer model object
+     * Converts the customer DTO into a customer model object
      *
-     * @param customerDto the customer dto
+     * @param customerDto the customer DTO
      * @return the customer
-     * @throws CustomerNotFoundException if customer doesn't exist
      */
     @Override
-    public Customer convert(CustomerDto customerDto) throws CustomerNotFoundException {
+    public Customer convert(CustomerDto customerDto) {
 
         Customer customer = (customerDto.getId() != null ? customerService.get(customerDto.getId()) : new Customer());
 

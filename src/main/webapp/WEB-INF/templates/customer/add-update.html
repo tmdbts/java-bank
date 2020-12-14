@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <thymeleaf th:replace="header :: header" />
+<head lang="en">
+    <thymeleaf th:replace="header :: header"/>
 </head>
 <body>
 <div class="container">
-
 
     <div th:replace="action :: action"></div>
 
@@ -13,7 +12,7 @@
 
     <div class="row">
         <div class="col-sm-8">
-            <form class="form-horizontal" th:object="${customer}" th:action="@{/customer}" method="post">
+            <form class="form-horizontal" th:object="${customer}" th:action="@{'/customer'}" method="post">
 
                 <!-- since we are using same form for add and update,
                   we need to bind id input field to customer object

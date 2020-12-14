@@ -1,19 +1,26 @@
-package org.academiadecodigo.javabank.controller;
+package org.academiadecodigo.javabank.controller.web;
 
+import org.academiadecodigo.javabank.command.AccountDto;
 import org.academiadecodigo.javabank.command.CustomerDto;
 import org.academiadecodigo.javabank.command.RecipientDto;
-import org.academiadecodigo.javabank.converters.CustomerToCustomerDto;
-import org.academiadecodigo.javabank.converters.RecipientDtoToRecipient;
-import org.academiadecodigo.javabank.converters.RecipientToRecipientDto;
+import org.academiadecodigo.javabank.command.TransferDto;
+import org.academiadecodigo.javabank.controller.web.RecipientController;
+import org.academiadecodigo.javabank.converters.*;
+import org.academiadecodigo.javabank.domain.Transfer;
 import org.academiadecodigo.javabank.persistence.model.Customer;
 import org.academiadecodigo.javabank.persistence.model.Recipient;
+import org.academiadecodigo.javabank.persistence.model.account.Account;
 import org.academiadecodigo.javabank.services.CustomerService;
 import org.academiadecodigo.javabank.services.RecipientService;
+import org.academiadecodigo.javabank.services.TransferService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.*;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertEquals;
@@ -31,6 +38,9 @@ public class RecipientControllerTest {
     private CustomerService customerService;
 
     @Mock
+    private TransferService transferService;
+
+    @Mock
     private RecipientToRecipientDto recipientToRecipientDto;
 
     @Mock
@@ -38,6 +48,12 @@ public class RecipientControllerTest {
 
     @Mock
     private CustomerToCustomerDto customerToCustomerDto;
+
+    @Mock
+    private TransferDtoToTransfer transferDtoToTransfer;
+
+    @Mock
+    private AccountToAccountDto accountToAccountDto;
 
     @InjectMocks
     private RecipientController recipientController;
@@ -155,7 +171,7 @@ public class RecipientControllerTest {
 
                 //verify
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/customer/" + fakeCustomerId))
+                .andExpect(view().name("redirect:/customer/" + fakeCustomerId + "/recipient"))
                 .andExpect(flash().attribute("lastAction", equalTo("Saved " + fakeRecipientName)));
 
         ArgumentCaptor<RecipientDto> boundRecipient = ArgumentCaptor.forClass(RecipientDto.class);
@@ -172,6 +188,46 @@ public class RecipientControllerTest {
     }
 
     @Test
+    public void testListRecipients() throws Exception {
+
+        //setup
+        int fakeCustomerId = 9999;
+        Customer fakeCustomer = new Customer();
+        List<Recipient> fakeRecipientList = new ArrayList<>();
+        fakeRecipientList.add(new Recipient());
+        fakeRecipientList.add(new Recipient());
+
+        CustomerDto customerDto = new CustomerDto();
+
+        List<AccountDto> accountDtos = new ArrayList<>();
+        accountDtos.add(new AccountDto());
+        accountDtos.add(new AccountDto());
+
+        List<RecipientDto> recipientDtos = new ArrayList<>();
+        recipientDtos.add(new RecipientDto());
+        recipientDtos.add(new RecipientDto());
+
+        when(customerService.get(fakeCustomerId)).thenReturn(fakeCustomer);
+        when(customerService.listRecipients(fakeCustomerId)).thenReturn(fakeRecipientList);
+        when(customerToCustomerDto.convert(fakeCustomer)).thenReturn(customerDto);
+        when(accountToAccountDto.convert(ArgumentMatchers.<Account>anyList())).thenReturn(accountDtos);
+        when(recipientToRecipientDto.convert(fakeRecipientList)).thenReturn(recipientDtos);
+
+        //exercise
+        mockMvc.perform(get("/customer/" + fakeCustomerId + "/recipient"))
+
+                //verify
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("customer", equalTo(customerDto)))
+                .andExpect(model().attribute("accounts", equalTo(accountDtos)))
+                .andExpect(model().attribute("recipients", equalTo(recipientDtos)))
+                .andExpect(view().name("recipient/list"));
+
+        verify(customerService, times(1)).get(fakeCustomerId);
+        verify(customerService, times(1)).listRecipients(fakeCustomerId);
+    }
+
+    @Test
     public void testDeleteRecipient() throws Exception {
 
         int fakeCustomerId = 9998;
@@ -182,7 +238,7 @@ public class RecipientControllerTest {
 
         mockMvc.perform(get("/customer/" + fakeCustomerId + "/recipient/" + fakeRecipientId + "/delete/"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/customer/" + fakeCustomerId));
+                .andExpect(view().name("redirect:/customer/" + fakeCustomerId + "/recipient"));
 
         verify(customerService, times(1)).removeRecipient(fakeCustomerId, fakeRecipientId);
     }
@@ -220,6 +276,80 @@ public class RecipientControllerTest {
                 .param("action", "cancel"))
                 .andExpect(status().is3xxRedirection());
     }
+
+    @Test
+    public void testTransfer() throws Exception {
+
+        //setup
+        int fakeCustomerId = 9999;
+        Customer fakeCustomer = new Customer();
+        List<Recipient> fakeRecipientList = new ArrayList<>();
+        fakeRecipientList.add(new Recipient());
+        fakeRecipientList.add(new Recipient());
+
+        CustomerDto customerDto = new CustomerDto();
+
+        List<RecipientDto> recipientDtos = new ArrayList<>();
+        recipientDtos.add(new RecipientDto());
+        recipientDtos.add(new RecipientDto());
+
+        when(customerService.get(fakeCustomerId)).thenReturn(fakeCustomer);
+        when(customerService.listRecipients(fakeCustomerId)).thenReturn(fakeRecipientList);
+        when(customerToCustomerDto.convert(fakeCustomer)).thenReturn(customerDto);
+        when(recipientToRecipientDto.convert(fakeRecipientList)).thenReturn(recipientDtos);
+
+        //exercise
+        mockMvc.perform(get("/customer/" + fakeCustomerId + "/recipient/transfer"))
+
+                //verify
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("customer", equalTo(customerDto)))
+                .andExpect(model().attribute("recipients", equalTo(recipientDtos)))
+                .andExpect(view().name("recipient/transfer"));
+
+        verify(customerService, times(1)).get(fakeCustomerId);
+        verify(customerService, times(1)).listRecipients(fakeCustomerId);
+
+    }
+
+    @Test
+    public void testDoTransfer() throws Exception {
+
+        //setup
+        Integer fakeCustomerId = 9999;
+        Double fakeAmount = 100.0;
+        Integer fakeDestId = 1;
+        Integer fakeSrcId = 2;
+
+        Transfer fakeTransfer = new Transfer();
+
+        fakeTransfer.setAmount(fakeAmount);
+        fakeTransfer.setDstId(fakeDestId);
+        fakeTransfer.setSrcId(fakeSrcId);
+
+        when(transferDtoToTransfer.convert(any(TransferDto.class))).thenReturn(fakeTransfer);
+
+        //exercise
+        mockMvc.perform(post("/customer/" + fakeCustomerId + "/recipient/transfer")
+                .param("dstId", fakeDestId.toString())
+                .param("srcId", fakeSrcId.toString())
+                .param("amount", fakeAmount.toString()))
+
+                //verify
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/customer/" + fakeCustomerId))
+                .andExpect(flash().attribute("lastAction", equalTo("Transfered " + fakeTransfer.getAmount() + " to account #" + fakeTransfer.getDstId())));
+
+        ArgumentCaptor<TransferDto> boundTransfer = ArgumentCaptor.forClass(TransferDto.class);
+        verify(transferDtoToTransfer, times(1)).convert(boundTransfer.capture());
+        verify(transferService, times(1)).transfer(fakeTransfer, fakeCustomerId);
+
+
+        assertEquals(fakeAmount.toString(), boundTransfer.getValue().getAmount());
+        assertEquals(fakeDestId, boundTransfer.getValue().getDstId());
+        assertEquals(fakeSrcId, boundTransfer.getValue().getSrcId());
+    }
+
 }
 
 

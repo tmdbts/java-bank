@@ -1,4 +1,4 @@
-package org.academiadecodigo.javabank.controller;
+package org.academiadecodigo.javabank.controller.web;
 
 import org.academiadecodigo.javabank.command.AccountDto;
 import org.academiadecodigo.javabank.command.CustomerDto;
@@ -6,7 +6,6 @@ import org.academiadecodigo.javabank.command.RecipientDto;
 import org.academiadecodigo.javabank.converters.AccountToAccountDto;
 import org.academiadecodigo.javabank.converters.CustomerDtoToCustomer;
 import org.academiadecodigo.javabank.converters.CustomerToCustomerDto;
-import org.academiadecodigo.javabank.converters.RecipientToRecipientDto;
 import org.academiadecodigo.javabank.persistence.model.Customer;
 import org.academiadecodigo.javabank.persistence.model.Recipient;
 import org.academiadecodigo.javabank.persistence.model.account.Account;
@@ -42,9 +41,6 @@ public class CustomerControllerTest {
     @Mock
     private AccountToAccountDto accountToAccountDto;
 
-    @Mock
-    private RecipientToRecipientDto recipientToRecipientDto;
-
     @InjectMocks
     private CustomerController customerController;
 
@@ -53,10 +49,8 @@ public class CustomerControllerTest {
     @Before
     public void setup() {
 
-
         MockitoAnnotations.initMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(customerController).build();
-
     }
 
     @Test
@@ -90,6 +84,7 @@ public class CustomerControllerTest {
                 .andExpect(model().attribute("customers", hasSize(2)));
 
         verify(customerService, times(3)).list();
+        verify(customerToCustomerDto, times(3)).convert(customers);
     }
 
     @Test
@@ -119,23 +114,16 @@ public class CustomerControllerTest {
         accountDtos.add(new AccountDto());
 
         when(accountToAccountDto.convert(ArgumentMatchers.<Account>anyList())).thenReturn(accountDtos);
-        List<RecipientDto> recipientDtos = new ArrayList<>();
-        recipientDtos.add(new RecipientDto());
-        recipientDtos.add(new RecipientDto());
-
-        when(recipientToRecipientDto.convert(ArgumentMatchers.<Recipient>anyList())).thenReturn(recipientDtos);
 
         mockMvc.perform(get("/customer/" + fakeId))
                 .andExpect(status().isOk())
                 .andExpect(view().name("customer/show"))
                 .andExpect(model().attribute("customer", equalTo(customerDto)))
-                .andExpect(model().attribute("accounts", equalTo(accountDtos)))
-                .andExpect(model().attribute("recipients", equalTo(recipientDtos)));
+                .andExpect(model().attribute("accounts", equalTo(accountDtos)));
 
         verify(customerService, times(1)).get(fakeId);
         verify(customerToCustomerDto).convert(customer);
         verify(accountToAccountDto).convert(ArgumentMatchers.<Account>anyList());
-        verify(recipientToRecipientDto).convert(ArgumentMatchers.<Recipient>anyList());
 
     }
 
@@ -161,14 +149,12 @@ public class CustomerControllerTest {
         when(customerService.get(fakeID)).thenReturn(customer);
         when(customerToCustomerDto.convert(customer)).thenReturn(customerDto);
 
-        mockMvc.perform(get("/customer/" + fakeID + "/edit"))
+        mockMvc.perform(get("/customer/" + fakeID + "/edit/"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("customer/add-update"))
                 .andExpect(model().attribute("customer", equalTo(customerDto)));
 
         verify(customerService, times(1)).get(fakeID);
-
-
     }
 
     @Test
@@ -180,6 +166,13 @@ public class CustomerControllerTest {
         String phone = "999888";
         String email = "mail@gmail.com";
 
+        CustomerDto customerDto = new CustomerDto();
+
+        customerDto.setFirstName(firstName);
+        customerDto.setLastName(lastName);
+        customerDto.setPhone(phone);
+        customerDto.setEmail(email);
+
         Customer customer = new Customer();
         customer.setId(fakeID);
         customer.setFirstName(firstName);
@@ -187,25 +180,24 @@ public class CustomerControllerTest {
         customer.setPhone(phone);
         customer.setEmail(email);
 
-
         when(customerDtoToCustomer.convert(ArgumentMatchers.any(CustomerDto.class))).thenReturn(customer);
         when(customerService.save(ArgumentMatchers.any(Customer.class))).thenReturn(customer);
 
         mockMvc.perform(post("/customer")
-                //added action parameter to post so spring can use the right method to process this request
+                //Action parameter to post so spring can use the right method to process this request
                 .param("action", "save")
                 .param("id", fakeID.toString())
-                .param("version", "0")
                 .param("firstName", firstName)
                 .param("lastName", lastName)
-                .param("phone", phone)
-                .param("email", email))
+                .param("email", email)
+                .param("phone", phone))
                 // for debugging
-                .andDo(print())
+                // .andDo(print())
                 .andExpect(status().is3xxRedirection());
 
         //verify properties of bound command object
         ArgumentCaptor<CustomerDto> boundCustomer = ArgumentCaptor.forClass(CustomerDto.class);
+
         verify(customerDtoToCustomer, times(1)).convert(boundCustomer.capture());
         verify(customerService, times(1)).save(customer);
 
@@ -220,7 +212,7 @@ public class CustomerControllerTest {
     @Test
     public void testSaveCustomerCancel() throws Exception {
         mockMvc.perform(post("/customer/")
-                //added action parameter to post so spring can use the right method to process this request
+                //Action parameter to post so spring can use the right method to process this request
                 .param("action", "cancel"))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection());
@@ -234,10 +226,11 @@ public class CustomerControllerTest {
 
         when(customerService.get(fakeId)).thenReturn(customer);
 
-        mockMvc.perform(get("/customer/" + fakeId + "/delete"))
+        mockMvc.perform(get("/customer/" + fakeId + "/delete/"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/customer"));
 
         verify(customerService, times(1)).delete(fakeId);
     }
+
 }

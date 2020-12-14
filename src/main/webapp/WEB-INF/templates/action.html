@@ -21,6 +21,11 @@
         <strong>Action:</strong> <span th:text="${lastAction}">last action performed</span>
     </div>
 
+    <div th:if="${failure}" class="alert alert-danger alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+        <strong>Warning:</strong> <span th:text="${failure}">last action performed</span>
+    </div>
+
 </div>
 
 </body>

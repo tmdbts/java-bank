@@ -1,6 +1,5 @@
 package org.academiadecodigo.javabank.services.mock;
 
-import org.academiadecodigo.javabank.exceptions.AccountNotFoundException;
 import org.academiadecodigo.javabank.exceptions.AssociationExistsException;
 import org.academiadecodigo.javabank.exceptions.CustomerNotFoundException;
 import org.academiadecodigo.javabank.exceptions.RecipientNotFoundException;
@@ -22,9 +21,9 @@ public class MockCustomerService extends AbstractMockService<Customer> implement
     private AccountService accountService;
 
     /**
-     * Sets the account service
+     * Sets the customer service
      *
-     * @param accountService the account service to set
+     * @param accountService the customer service to set
      */
     public void setAccountService(AccountService accountService) {
         this.accountService = accountService;
@@ -42,9 +41,9 @@ public class MockCustomerService extends AbstractMockService<Customer> implement
      * @see CustomerService#getBalance(Integer)
      */
     @Override
-    public double getBalance(Integer customerId) throws CustomerNotFoundException {
+    public double getBalance(Integer id) throws CustomerNotFoundException {
 
-        Customer customer = Optional.ofNullable(modelMap.get(customerId))
+        Customer customer = Optional.ofNullable(modelMap.get(id))
                 .orElseThrow(CustomerNotFoundException::new);
 
         return customer.getAccounts().stream()
@@ -104,14 +103,13 @@ public class MockCustomerService extends AbstractMockService<Customer> implement
      * @see CustomerService#addRecipient(Integer, Recipient)
      */
     @Override
-    public void addRecipient(Integer id, Recipient recipient) throws CustomerNotFoundException, AccountNotFoundException {
+    public Recipient addRecipient(Integer id, Recipient recipient) {
 
-        Customer customer = Optional.ofNullable(modelMap.get(id))
-                .orElseThrow(CustomerNotFoundException::new);
+        Customer customer = modelMap.get(id);
 
         if (accountService.get(recipient.getAccountNumber()) == null ||
                 getAccountIds(customer).contains(recipient.getAccountNumber())) {
-            throw new AccountNotFoundException();
+            return null;
         }
 
         if (recipient.getId() == null) {
@@ -119,13 +117,16 @@ public class MockCustomerService extends AbstractMockService<Customer> implement
         }
 
         customer.addRecipient(recipient);
+
+        return recipient;
     }
 
     /**
      * @see CustomerService#removeRecipient(Integer, Integer)
      */
     @Override
-    public void removeRecipient(Integer id, Integer recipientId) throws CustomerNotFoundException, RecipientNotFoundException {
+    public void removeRecipient(Integer id, Integer recipientId)
+            throws CustomerNotFoundException, RecipientNotFoundException {
 
         Customer customer = Optional.ofNullable(modelMap.get(id))
                 .orElseThrow(CustomerNotFoundException::new);
@@ -143,6 +144,29 @@ public class MockCustomerService extends AbstractMockService<Customer> implement
         }
 
         customer.removeRecipient(recipient);
+    }
+
+    /**
+     * @see CustomerService#addAccount(Integer, Account)
+     */
+    @Override
+    public Account addAccount(Integer id, Account account) {
+        Customer customer = get(id);
+        customer.addAccount(account);
+        return account;
+    }
+
+    /**
+     * @see CustomerService#closeAccount(Integer, Integer)
+     */
+    @Override
+    public void closeAccount(Integer cid, Integer accountId) {
+        Customer customer = modelMap.get(cid);
+
+        customer.getAccounts().stream()
+                .filter(account -> account.getId().equals(accountId))
+                .findFirst()
+                .ifPresent(customer::removeAccount);
     }
 
     private Set<Integer> getAccountIds(Customer customer) {

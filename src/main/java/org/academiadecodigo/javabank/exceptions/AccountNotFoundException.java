@@ -1,14 +1,16 @@
 package org.academiadecodigo.javabank.exceptions;
 
+import org.academiadecodigo.javabank.errors.ErrorMessage;
+
 /**
  * Thrown to indicate that the account was not found
  */
-public class AccountNotFoundException extends NotFoundException {
+public class AccountNotFoundException extends JavaBankException {
 
     /**
-     * @see NotFoundException#NotFoundException(String)
+     * @see JavaBankException#JavaBankException(String)
      */
     public AccountNotFoundException() {
-        super("Account not found");
+        super(ErrorMessage.ACCOUNT_NOT_FOUND);
     }
 }

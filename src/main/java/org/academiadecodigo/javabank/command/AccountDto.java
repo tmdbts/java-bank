@@ -1,56 +1,69 @@
 package org.academiadecodigo.javabank.command;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.academiadecodigo.javabank.persistence.model.account.Account;
 import org.academiadecodigo.javabank.persistence.model.account.AccountType;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 /**
  * The {@link Account} data transfer object
  */
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class AccountDto {
 
+    public static final String moneyRegex = "^\\$?0*[1-9]\\d*(\\.\\d{0,2})?|\\d*(\\.0[1-9])|\\d*(\\.[1-9]\\d?)?$?";
+
     private Integer id;
-    private Double balance;
+
+    @NotNull(message = "AccountType is mandatory")
     private AccountType type;
-    private Integer customerId;
+
+    @Pattern(regexp = moneyRegex, message = "Amount is not valid")
+    @NotNull(message = "Initial amount is mandatory")
+    @NotBlank(message = "Initial amount is mandatory")
+    private String balance;
 
     /**
-     * Gets the id of the account dto
+     * Gets the id of the account DTO
      *
-     * @return the account dto id
+     * @return the account DTO id
      */
     public Integer getId() {
         return id;
     }
 
     /**
-     * Sets the id of the account dto
+     * Sets the id of the account DTO
      *
-     * @param id the id to set
+     * @param id the account DTO id
      */
     public void setId(Integer id) {
         this.id = id;
     }
 
     /**
-     * Gets the initial amount of the account dto
+     * Gets the account DTO balance
      *
-     * @return the initial amount
+     * @return the account DTO balance
      */
-    public Double getBalance() {
+    public String getBalance() {
         return balance;
     }
 
     /**
-     * Sets the initial amount of the account dto
+     * Sets the account DTO balance
      *
-     * @param balance the amount to set
+     * @param balance the account DTO balance to set
      */
-    public void setBalance(Double balance) {
+    public void setBalance(String balance) {
         this.balance = balance;
     }
 
     /**
-     * Gets the type of the account dto
+     * Gets the type of the account DTO
      *
      * @return the account type
      */
@@ -59,7 +72,7 @@ public class AccountDto {
     }
 
     /**
-     * Sets the account dto type
+     * Sets the account DTO type
      *
      * @param type the account type to set
      */
@@ -68,20 +81,13 @@ public class AccountDto {
     }
 
     /**
-     * Gets the account dto customer id
-     *
-     * @return the customer id
+     * @see Object#toString()
      */
-    public Integer getCustomerId() {
-        return customerId;
-    }
-
-    /**
-     * Sets the account dto customer id
-     *
-     * @param customerId the customer id to set
-     */
-    public void setCustomerId(Integer customerId) {
-        this.customerId = customerId;
+    @Override
+    public String toString() {
+        return "AccountDto{" +
+                ", type=" + type +
+                ", balance=" + balance +
+                '}';
     }
 }

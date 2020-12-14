@@ -11,6 +11,11 @@
 
     <div class="alert alert-danger" role="alert">
         <h1>Application Error</h1>
+
+        <h3 th:if="${exception}">
+            <b>Cause: </b> <span th:text="${exception.message}">Page URL</span>
+        </h3>
+
     </div>
     <div>
         <p th:if="${url}">
@@ -36,6 +41,5 @@
         </ul>
         <div th:utext="'--&gt;'" th:remove="tag"></div>
     </div>
-</div>
 </body>
 </html>
