@@ -1,22 +1,23 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <thymeleaf th:replace="header :: header"/>
+    <thymeleaf th:replace="header :: header" />
 </head>
+
 <body>
-<div class="container">
+    <div class="container">
 
-    <div th:replace="action :: action"></div>
+        <div th:replace="action :: action"></div>
 
-    <div th:replace="customer/partial/details :: details"></div>
+        <div th:replace="customer/partial/details :: details"></div>
 
-    <div class="row">
-        <div class="col-sm-8">
-            <h3>Recipients:</h3>
-            <p>
-                <a class="btn btn-warning"
-                   th:disabled="${#lists.isEmpty(recipients) or #lists.isEmpty(accounts)}"
-                   th:href="${not #lists.isEmpty(recipients) and not #lists.isEmpty(accounts)} ? @{'/customer/' + ${customer.id} + '/recipient/transfer'}">Transfer</a>
+        <div class="row">
+            <div class="col-sm-8">
+                <h3>Recipients:</h3>
+                <p>
+                    <a class="btn btn-warning" th:disabled="${#lists.isEmpty(recipients) or #lists.isEmpty(accounts)}"
+                    th:href="${not #lists.isEmpty(recipients) and not #lists.isEmpty(accounts)} ? @{'/customer/' + ${customer.id} + '/recipient/transfer'}">Transfer</a>
             </p>
             <div th:if="${not #lists.isEmpty(recipients)}">
                 <table class="table table-striped">

@@ -1,23 +1,22 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <thymeleaf th:replace="header :: header"/>
+    <thymeleaf th:replace="header :: header" />
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
+
 <body>
 
-<div th:fragment="partial">
+    <div th:fragment="partial">
 
-    <div class="row">
-        <div class="col-sm-8">
-            <h3>Accounts</h3>
-            <p>
-                <a class="btn btn-success" type="button" data-toggle="modal"
-                   data-target="#add-account-modal">Add</a>
-                <a class="btn btn-warning" type="button"
-                   data-target="#account-transfer-modal"
-                   th:attr="data-toggle=${#lists.size(accounts) > 1} ? 'modal'"
+        <div class="row">
+            <div class="col-sm-8">
+                <h3>Accounts</h3>
+                <p>
+                    <a class="btn btn-success" type="button" data-toggle="modal" data-target="#add-account-modal">Add</a>
+                    <a class="btn btn-warning" type="button" data-target="#account-transfer-modal" th:attr="data-toggle=${#lists.size(accounts) > 1} ? 'modal'"
                    th:disabled="${#lists.size(accounts) < 2}">Transfer</a>
             </p>
 
