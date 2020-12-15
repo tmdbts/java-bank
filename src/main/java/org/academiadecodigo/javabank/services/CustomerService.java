@@ -70,8 +70,7 @@ public interface CustomerService {
      * @throws CustomerNotFoundException
      * @throws AccountNotFoundException
      */
-    Recipient addRecipient(Integer id, Recipient recipient)
-            throws CustomerNotFoundException, AccountNotFoundException;
+    Recipient addRecipient(Integer id, Recipient recipient) throws CustomerNotFoundException, AccountNotFoundException;
 
     /**
      * Removes a recipient from the customer
@@ -82,8 +81,7 @@ public interface CustomerService {
      * @throws AccountNotFoundException
      * @throws RecipientNotFoundException
      */
-    void removeRecipient(Integer id, Integer recipientId)
-            throws CustomerNotFoundException, AccountNotFoundException, RecipientNotFoundException;
+    void removeRecipient(Integer id, Integer recipientId) throws CustomerNotFoundException, AccountNotFoundException, RecipientNotFoundException;
 
     /**
      * Adds an account to a customer
@@ -93,8 +91,7 @@ public interface CustomerService {
      * @throws CustomerNotFoundException
      * @throws TransactionInvalidException
      */
-    Account addAccount(Integer id, Account account)
-            throws CustomerNotFoundException, TransactionInvalidException;
+    Account addAccount(Integer id, Account account) throws CustomerNotFoundException, TransactionInvalidException;
 
     /**
      * Closes an account from the customer
@@ -105,6 +102,5 @@ public interface CustomerService {
      * @throws AccountNotFoundException
      * @throws TransactionInvalidException
      */
-    void closeAccount(Integer id, Integer accountId)
-            throws CustomerNotFoundException, AccountNotFoundException, TransactionInvalidException;
+    void closeAccount(Integer id, Integer accountId) throws CustomerNotFoundException, AccountNotFoundException, TransactionInvalidException;
 }

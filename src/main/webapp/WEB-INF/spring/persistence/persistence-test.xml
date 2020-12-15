@@ -17,7 +17,6 @@
     </bean>
 
     <bean id="emFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-
         <property name="dataSource" ref="dataSource"/>
         <property name="packagesToScan" value="org.academiadecodigo.javabank.persistence.model"/>
         <property name="jpaVendorAdapter">
@@ -25,7 +24,6 @@
         </property>
         <property name="jpaProperties">
             <map>
-
                 <!-- Uncomment for debug -->
                 <!--<entry key="hibernate.show_sql" value="true" />-->
 
@@ -36,10 +34,7 @@
                 <entry key="hibernate.hbm2ddl.import_files" value="db/test-data.sql"/>
                 <entry key="hibernate.hbm2ddl.import_files_sql_extractor"
                        value="org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor"/>
-
             </map>
         </property>
     </bean>
-
-
 </beans>

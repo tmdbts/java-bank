@@ -7,7 +7,6 @@ import org.academiadecodigo.javabank.converters.AccountDtoToAccount;
 import org.academiadecodigo.javabank.converters.CustomerToCustomerDto;
 import org.academiadecodigo.javabank.converters.TransferDtoToTransfer;
 import org.academiadecodigo.javabank.exceptions.TransactionInvalidException;
-import org.academiadecodigo.javabank.persistence.model.Customer;
 import org.academiadecodigo.javabank.persistence.model.account.Account;
 import org.academiadecodigo.javabank.services.AccountService;
 import org.academiadecodigo.javabank.services.CustomerService;
@@ -146,7 +145,9 @@ public class AccountController {
         }
 
         accountService.deposit(accountTransactionDto.getId(), cid, Double.parseDouble(accountTransactionDto.getAmount()));
+
         redirectAttributes.addFlashAttribute("lastAction", "Deposited " + accountTransactionDto.getAmount() + " into account # " + accountTransactionDto.getId());
+
         return "redirect:/customer/" + cid;
     }
 
@@ -171,11 +172,13 @@ public class AccountController {
 
         try {
             accountService.withdraw(accountTransactionDto.getId(), cid, Double.parseDouble(accountTransactionDto.getAmount()));
-            redirectAttributes.addFlashAttribute("lastAction", "Withdrew " + accountTransactionDto.getAmount() + " from account # " + accountTransactionDto.getId());
-            return "redirect:/customer/" + cid;
 
+            redirectAttributes.addFlashAttribute("lastAction", "Withdrew " + accountTransactionDto.getAmount() + " from account # " + accountTransactionDto.getId());
+
+            return "redirect:/customer/" + cid;
         } catch (TransactionInvalidException ex) {
             redirectAttributes.addFlashAttribute("failure", "Withdraw failed. " + accountTransactionDto.getAmount() + " is over the current balance for account # " + accountTransactionDto.getId());
+
             return "redirect:/customer/" + cid;
         }
     }
@@ -194,11 +197,14 @@ public class AccountController {
 
         try {
             customerService.closeAccount(cid, aid);
+
             redirectAttributes.addFlashAttribute("lastAction", "Closed account " + aid);
+
             return "redirect:/customer/" + cid;
 
         } catch (TransactionInvalidException ex) {
             redirectAttributes.addFlashAttribute("failure", "Unable to perform closing operation. Account # " + aid + " still has funds");
+
             return "redirect:/customer/" + cid;
         }
     }
@@ -223,11 +229,14 @@ public class AccountController {
 
         try {
             transferService.transfer(transferDtoToTransfer.convert(transferDto), cid);
+
             redirectAttributes.addFlashAttribute("lastAction", "Account # " + transferDto.getSrcId() + " transfered " + transferDto.getAmount() + " to account #" + transferDto.getDstId());
+
             return "redirect:/customer/" + cid;
 
         } catch (TransactionInvalidException ex) {
             redirectAttributes.addFlashAttribute("failure", "Unable to perform transaction: value above the allowed amount");
+            
             return "redirect:/customer/" + cid;
         }
     }

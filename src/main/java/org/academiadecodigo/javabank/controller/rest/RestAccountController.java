@@ -20,7 +20,6 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -139,16 +138,14 @@ public class RestAccountController {
         try {
 
             Account account = customerService.addAccount(cid, accountDtoToAccount.convert(accountDto));
-
             UriComponents uriComponents = uriComponentsBuilder.path("/api/customer/" + cid + "/account/" + account.getId()).build();
             HttpHeaders headers = new HttpHeaders();
+
             headers.setLocation(uriComponents.toUri());
 
             return new ResponseEntity<>(headers, HttpStatus.CREATED);
-
         } catch (CustomerNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
         } catch (TransactionInvalidException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -166,20 +163,15 @@ public class RestAccountController {
     public ResponseEntity<?> closeAccount(@PathVariable Integer cid, @PathVariable Integer aid) {
 
         try {
-
             customerService.closeAccount(cid, aid);
 
             return new ResponseEntity<>(HttpStatus.OK);
-
         } catch (CustomerNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
         } catch (AccountNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
         } catch (TransactionInvalidException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
         }
     }
 }

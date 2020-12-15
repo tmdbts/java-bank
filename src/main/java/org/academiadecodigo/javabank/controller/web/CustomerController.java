@@ -85,7 +85,9 @@ public class CustomerController {
      */
     @RequestMapping(method = RequestMethod.GET, path = {"/list", "/", ""})
     public String listCustomers(Model model) {
+
         model.addAttribute("customers", customerToCustomerDto.convert(customerService.list()));
+
         return "customer/list";
     }
 
@@ -97,7 +99,9 @@ public class CustomerController {
      */
     @RequestMapping(method = RequestMethod.GET, path = "/add")
     public String addCustomer(Model model) {
+
         model.addAttribute("customer", new CustomerDto());
+
         return "customer/add-update";
     }
 
@@ -110,7 +114,9 @@ public class CustomerController {
      */
     @RequestMapping(method = RequestMethod.GET, path = "/{id}/edit")
     public String editCustomer(@PathVariable Integer id, Model model) {
+
         model.addAttribute("customer", customerToCustomerDto.convert(customerService.get(id)));
+
         return "customer/add-update";
     }
 
@@ -136,12 +142,13 @@ public class CustomerController {
         // command objects for modals
         AccountDto accountDto = new AccountDto();
         AccountTransactionDto accountTransactionDto = new AccountTransactionDto();
+
         accountTransactionDto.setId(id);
 
         model.addAttribute("account", accountDto);
         model.addAttribute("accountTransaction", accountTransactionDto);
-
         model.addAttribute("transfer", new TransferDto());
+
         return "customer/show";
     }
 
@@ -163,6 +170,7 @@ public class CustomerController {
         Customer savedCustomer = customerService.save(customerDtoToCustomer.convert(customerDto));
 
         redirectAttributes.addFlashAttribute("lastAction", "Saved " + savedCustomer.getFirstName() + " " + savedCustomer.getLastName());
+
         return "redirect:/customer/" + savedCustomer.getId();
     }
 
@@ -188,9 +196,12 @@ public class CustomerController {
      */
     @RequestMapping(method = RequestMethod.GET, path = "{id}/delete")
     public String deleteCustomer(@PathVariable Integer id, RedirectAttributes redirectAttributes) throws AssociationExistsException, CustomerNotFoundException {
+
         Customer customer = customerService.get(id);
+
         customerService.delete(id);
         redirectAttributes.addFlashAttribute("lastAction", "Deleted " + customer.getFirstName() + " " + customer.getLastName());
+
         return "redirect:/customer";
     }
 }

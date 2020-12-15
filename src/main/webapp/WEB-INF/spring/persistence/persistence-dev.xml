@@ -30,16 +30,14 @@
         <property name="jpaProperties">
             <map>
                 <entry key="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
-                <entry key="hibernate.show_sql" value="${dev.debug}" />
+                <entry key="hibernate.show_sql" value="${dev.debug}"/>
                 <entry key="hibernate.hbm2ddl.auto" value="${dev.schema.auto}"/>
 
                 <!-- Insert test data if dev.schema.auto property set to create -->
                 <entry key="hibernate.hbm2ddl.import_files" value="db/test-data.sql"/>
                 <entry key="hibernate.hbm2ddl.import_files_sql_extractor"
                        value="org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor"/>
-
             </map>
         </property>
     </bean>
-
 </beans>

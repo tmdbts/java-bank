@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="ALL">
     <Appenders>
-
         <RollingFile name="AccessRollingFile" fileName="${sys:catalina.home}/logs/javabank/access/javabank_access.log"
                      filePattern="${sys:catalina.home}/logs/javabank/access/$${date:yyyy}/$${date:MM}/javabank_access_%d{dd}.log"
                      append="false">
@@ -36,8 +35,8 @@
                 <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
             </Policies>
         </RollingFile>
-
     </Appenders>
+
     <Loggers>
         <Root level="INFO">
             <AppenderRef ref="AccessRollingFile"/>
@@ -45,7 +44,7 @@
         </Root>
 
         <Logger name="org.hibernate.SQL" level="DEBUG" additivity="false">
-           <AppenderRef ref="DebugRollingFile"/>
+            <AppenderRef ref="DebugRollingFile"/>
         </Logger>
     </Loggers>
 </Configuration>

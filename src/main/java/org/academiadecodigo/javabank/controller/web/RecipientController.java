@@ -132,7 +132,6 @@ public class RecipientController {
     public String listRecipients(@PathVariable Integer cid, Model model) {
 
         try {
-
             List<Recipient> recipients = customerService.listRecipients(cid);
             Customer customer = customerService.get(cid);
 
@@ -141,7 +140,6 @@ public class RecipientController {
             model.addAttribute("accounts", accountToAccountDto.convert(customer.getAccounts()));
 
             return "recipient/list";
-
         } catch (CustomerNotFoundException ex) {
             return "redirect:/";
         }
@@ -173,8 +171,10 @@ public class RecipientController {
      */
     @RequestMapping(method = RequestMethod.GET, path = "/{cid}/recipient/{id}/edit")
     public String editRecipient(@PathVariable Integer cid, @PathVariable Integer id, Model model) {
+
         model.addAttribute("customer", customerToCustomerDto.convert(customerService.get(cid)));
         model.addAttribute("recipient", recipientToRecipientDto.convert(recipientService.get(id)));
+
         return "recipient/add-update";
     }
 
@@ -198,20 +198,18 @@ public class RecipientController {
         }
 
         try {
-
             Recipient recipient = recipientDtoToRecipient.convert(recipientDto);
-            customerService.addRecipient(cid, recipient);
 
+            customerService.addRecipient(cid, recipient);
             redirectAttributes.addFlashAttribute("lastAction", "Saved " + recipientDto.getName());
+
             return "redirect:/customer/" + cid + "/recipient";
 
         } catch (AccountNotFoundException ex) {
-
             bindingResult.rejectValue("accountNumber", "invalid.account", "invalid account number");
+
             return "recipient/add-update";
-
         } catch (CustomerNotFoundException ex) {
-
             return "redirect:/customer/" + cid;
         }
     }
@@ -239,9 +237,12 @@ public class RecipientController {
      */
     @RequestMapping(method = RequestMethod.GET, path = "/{cid}/recipient/{id}/delete")
     public String deleteRecipient(@PathVariable Integer cid, @PathVariable Integer id, RedirectAttributes redirectAttributes) throws Exception {
+
         Recipient recipient = recipientService.get(id);
+
         customerService.removeRecipient(cid, id);
         redirectAttributes.addFlashAttribute("lastAction", "Deleted " + recipient.getName());
+
         return "redirect:/customer/" + cid + "/recipient";
     }
 
@@ -256,7 +257,6 @@ public class RecipientController {
     public String transfer(@PathVariable Integer cid, Model model) {
 
         try {
-
             List<Recipient> recipients = customerService.listRecipients(cid);
             Customer customer = customerService.get(cid);
 
@@ -264,8 +264,8 @@ public class RecipientController {
             model.addAttribute("customer", customerToCustomerDto.convert(customer));
             model.addAttribute("accounts", accountToAccountDto.convert(customer.getAccounts()));
             model.addAttribute("transfer", new TransferDto());
-            return "recipient/transfer";
 
+            return "recipient/transfer";
         } catch (CustomerNotFoundException ex) {
             return "redirect:/customer/" + cid;
         }
@@ -292,17 +292,19 @@ public class RecipientController {
             model.addAttribute("accounts", accountToAccountDto.convert(customer.getAccounts()));
             model.addAttribute("recipients", recipientToRecipientDto.convert(customerService.listRecipients(cid)));
             redirectAttributes.addFlashAttribute("failure", "Transfer failed missing information");
+
             return "recipient/transfer";
         }
 
         try {
             transferService.transfer(transferDtoToTransfer.convert(transferDto), cid);
-
             redirectAttributes.addFlashAttribute("lastAction", "Transfered " + transferDto.getAmount() + " to account #" + transferDto.getDstId());
+
             return "redirect:/customer/" + cid;
 
         } catch (TransactionInvalidException ex) {
             redirectAttributes.addFlashAttribute("failure", "Unable to perform transaction: value above the allowed amount");
+            
             return "redirect:/customer/" + cid + "/recipient/transfer";
         }
     }

@@ -13,6 +13,7 @@ public class TransferDtoToTransfer implements Converter<TransferDto, Transfer> {
 
     /**
      * Converts the transfer DTO object into a transfer domain object
+     *
      * @param transferDto the transfer DTO
      * @return the transfer object
      */

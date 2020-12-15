@@ -3,11 +3,9 @@ package org.academiadecodigo.javabank.controller.rest;
 import org.academiadecodigo.javabank.command.AccountTransactionDto;
 import org.academiadecodigo.javabank.command.TransferDto;
 import org.academiadecodigo.javabank.converters.TransferDtoToTransfer;
-import org.academiadecodigo.javabank.domain.Transfer;
 import org.academiadecodigo.javabank.exceptions.AccountNotFoundException;
 import org.academiadecodigo.javabank.exceptions.CustomerNotFoundException;
 import org.academiadecodigo.javabank.exceptions.TransactionInvalidException;
-import org.academiadecodigo.javabank.persistence.model.Customer;
 import org.academiadecodigo.javabank.services.AccountService;
 import org.academiadecodigo.javabank.services.TransferService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,7 +70,6 @@ public class RestTransactionController {
     public ResponseEntity<TransferDto> transfer(@PathVariable Integer cid, @Valid @RequestBody TransferDto transferDto, BindingResult bindingResult) {
 
         try {
-
             if (bindingResult.hasErrors()) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
@@ -80,13 +77,10 @@ public class RestTransactionController {
             transferService.transfer(transferDtoToTransfer.convert(transferDto), cid);
 
             return new ResponseEntity<>(HttpStatus.OK);
-
         } catch (CustomerNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
         } catch (AccountNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
         } catch (TransactionInvalidException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -104,7 +98,6 @@ public class RestTransactionController {
     public ResponseEntity<AccountTransactionDto> deposit(@PathVariable Integer cid, @Valid @RequestBody AccountTransactionDto accountTransactionDto, BindingResult bindingResult) {
 
         try {
-
             if (bindingResult.hasErrors()) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
@@ -112,13 +105,10 @@ public class RestTransactionController {
             accountService.deposit(accountTransactionDto.getId(), cid, Double.parseDouble(accountTransactionDto.getAmount()));
 
             return new ResponseEntity<>(HttpStatus.OK);
-
         } catch (AccountNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
         } catch (CustomerNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
         } catch (TransactionInvalidException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -136,7 +126,6 @@ public class RestTransactionController {
     public ResponseEntity<AccountTransactionDto> withdraw(@PathVariable Integer cid, @Valid @RequestBody AccountTransactionDto accountTransactionDto, BindingResult bindingResult) {
 
         try {
-
             if (bindingResult.hasErrors()) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
@@ -144,13 +133,10 @@ public class RestTransactionController {
             accountService.withdraw(accountTransactionDto.getId(), cid, Double.parseDouble(accountTransactionDto.getAmount()));
 
             return new ResponseEntity<>(HttpStatus.OK);
-
         } catch (AccountNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
         } catch (CustomerNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
         } catch (TransactionInvalidException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

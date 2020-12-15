@@ -31,6 +31,7 @@ public class GlobalControllerExceptionHandler {
     public ModelAndView handleClientErrors(HttpServletRequest req, JavaBankException ex) {
 
         logException(ex);
+
         return handleError(HttpStatus.BAD_REQUEST, req, ex);
     }
 
@@ -46,6 +47,7 @@ public class GlobalControllerExceptionHandler {
     public ModelAndView handleServerErrors(HttpServletRequest req, Exception ex) {
 
         logException(ex);
+
         return handleError(HttpStatus.INTERNAL_SERVER_ERROR, req, ex);
     }
 
@@ -60,6 +62,7 @@ public class GlobalControllerExceptionHandler {
         model.addObject("exception", ex);
 
         model.setViewName("app-error");
+
         return model;
     }
 
@@ -69,9 +72,9 @@ public class GlobalControllerExceptionHandler {
 
         String throwingClassName = ex.getStackTrace()[0].getClassName();
         String throwingMethodName = ex.getStackTrace()[0].getMethodName();
-
-
+        
         Logger logger = LogManager.getLogger(throwingClassName);
+
         logger.error(errorOrigin + " error on " + throwingMethodName + "() - " + ex.getMessage());
     }
 }

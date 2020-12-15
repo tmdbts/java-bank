@@ -18,8 +18,7 @@ public interface TransferService {
      * @throws AccountNotFoundException
      * @throws TransactionInvalidException
      */
-    void transfer(Transfer transfer)
-            throws AccountNotFoundException, TransactionInvalidException;
+    void transfer(Transfer transfer) throws AccountNotFoundException, TransactionInvalidException;
 
     /**
      * Performs a transfer between two {@link Account}, if possible
@@ -30,6 +29,5 @@ public interface TransferService {
      * @throws AccountNotFoundException
      * @throws TransactionInvalidException
      */
-    void transfer(Transfer transfer, Integer customerId)
-            throws CustomerNotFoundException, AccountNotFoundException, TransactionInvalidException;
+    void transfer(Transfer transfer, Integer customerId) throws CustomerNotFoundException, AccountNotFoundException, TransactionInvalidException;
 }

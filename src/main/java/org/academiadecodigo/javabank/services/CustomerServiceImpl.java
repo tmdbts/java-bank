@@ -146,6 +146,7 @@ public class CustomerServiceImpl implements CustomerService {
         } else {
             recipientDao.saveOrUpdate(recipient);
         }
+
         return customer.getRecipients().get(customer.getRecipients().size() - 1);
     }
 
@@ -196,8 +197,7 @@ public class CustomerServiceImpl implements CustomerService {
      */
     @Transactional
     @Override
-    public void closeAccount(Integer id, Integer accountId)
-            throws CustomerNotFoundException, AccountNotFoundException, TransactionInvalidException {
+    public void closeAccount(Integer id, Integer accountId) throws CustomerNotFoundException, AccountNotFoundException, TransactionInvalidException {
 
         Customer customer = Optional.ofNullable(customerDao.findById(id))
                 .orElseThrow(CustomerNotFoundException::new);
@@ -219,6 +219,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     private Set<Integer> getAccountIds(Customer customer) {
+        
         List<Account> accounts = customer.getAccounts();
 
         return accounts.stream()

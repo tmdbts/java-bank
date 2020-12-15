@@ -21,6 +21,7 @@ public class Log4jWebConfig implements ServletContextListener {
      */
     @Override
     public void contextInitialized(ServletContextEvent event) {
+        
         String activeProfile = event.getServletContext().getInitParameter("spring.profiles.active");
 
         String loggerPath = LOGGER_BASE_PATH + (activeProfile.equals("prod") ? ".xml" : "-" + activeProfile + ".xml");

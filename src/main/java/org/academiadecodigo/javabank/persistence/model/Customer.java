@@ -143,6 +143,7 @@ public class Customer extends AbstractModel {
      * @param account the account to add
      */
     public void addAccount(Account account) {
+
         accounts.add(account);
         account.setCustomer(this);
     }
@@ -153,6 +154,7 @@ public class Customer extends AbstractModel {
      * @param account the account to remove
      */
     public void removeAccount(Account account) {
+
         accounts.remove(account);
         account.setCustomer(null);
     }
@@ -163,6 +165,7 @@ public class Customer extends AbstractModel {
      * @param recipient the recipient to add
      */
     public void addRecipient(Recipient recipient) {
+
         recipients.add(recipient);
         recipient.setCustomer(this);
     }
@@ -173,6 +176,7 @@ public class Customer extends AbstractModel {
      * @param recipient the recipient to remove
      */
     public void removeRecipient(Recipient recipient) {
+
         recipients.remove(recipient);
         recipient.setCustomer(null);
     }

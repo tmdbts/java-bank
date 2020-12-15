@@ -17,7 +17,6 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -149,6 +148,7 @@ public class RestCustomerController {
         customerDto.setId(id);
 
         customerService.save(customerDtoToCustomer.convert(customerDto));
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -162,13 +162,10 @@ public class RestCustomerController {
     public ResponseEntity<CustomerDto> deleteCustomer(@PathVariable Integer id) {
 
         try {
-
             customerService.delete(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-
         } catch (AssociationExistsException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
         } catch (CustomerNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

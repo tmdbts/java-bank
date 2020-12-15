@@ -55,8 +55,7 @@ public class AccountServiceImpl implements AccountService {
      */
     @Transactional
     @Override
-    public void deposit(Integer id, Integer customerId, double amount)
-            throws AccountNotFoundException, CustomerNotFoundException, TransactionInvalidException {
+    public void deposit(Integer id, Integer customerId, double amount) throws AccountNotFoundException, CustomerNotFoundException, TransactionInvalidException {
 
         Customer customer = Optional.ofNullable(customerDao.findById(customerId))
                 .orElseThrow(CustomerNotFoundException::new);
@@ -86,8 +85,7 @@ public class AccountServiceImpl implements AccountService {
      */
     @Transactional
     @Override
-    public void withdraw(Integer id, Integer customerId, double amount)
-            throws AccountNotFoundException, CustomerNotFoundException, TransactionInvalidException {
+    public void withdraw(Integer id, Integer customerId, double amount) throws AccountNotFoundException, CustomerNotFoundException, TransactionInvalidException {
 
         Customer customer = Optional.ofNullable(customerDao.findById(customerId))
                 .orElseThrow(CustomerNotFoundException::new);

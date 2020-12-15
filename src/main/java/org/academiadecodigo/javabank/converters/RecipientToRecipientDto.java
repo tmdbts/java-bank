@@ -13,6 +13,7 @@ public class RecipientToRecipientDto extends AbstractConverter<Recipient, Recipi
 
     /**
      * Converts the recipient model object into a recipient DTO
+     *
      * @param recipient the recipient
      * @return the recipient DTO
      */
@@ -20,6 +21,7 @@ public class RecipientToRecipientDto extends AbstractConverter<Recipient, Recipi
     public RecipientDto convert(Recipient recipient) {
 
         RecipientDto recipientDto = new RecipientDto();
+        
         recipientDto.setId(recipient.getId());
         recipientDto.setAccountNumber(recipient.getAccountNumber());
         recipientDto.setName(recipient.getName());

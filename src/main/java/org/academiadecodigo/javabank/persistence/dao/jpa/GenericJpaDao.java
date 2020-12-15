@@ -48,6 +48,7 @@ public abstract class GenericJpaDao<T extends Model> implements Dao<T> {
 
         CriteriaQuery<T> criteriaQuery = em.getCriteriaBuilder().createQuery(modelType);
         Root<T> root = criteriaQuery.from(modelType);
+        
         return em.createQuery(criteriaQuery).getResultList();
 
         // Using JPA

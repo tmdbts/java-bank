@@ -13,7 +13,6 @@
     </properties>
 
     <dependencies>
-
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -156,9 +155,7 @@
     </dependencies>
 
     <build>
-
         <finalName>Java Bank</finalName>
-
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -180,7 +177,6 @@
                     <path>/javabank5</path>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
 </project>

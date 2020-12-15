@@ -68,6 +68,7 @@ public abstract class Account extends AbstractModel {
      * @see Account#credit(double)
      */
     public void credit(double amount) {
+
         if (canCredit(amount)) {
             balance += amount;
         }
@@ -80,6 +81,7 @@ public abstract class Account extends AbstractModel {
      * @see Account#canDebit(double)
      */
     public void debit(double amount) {
+        
         if (canDebit(amount)) {
             balance -= amount;
         }

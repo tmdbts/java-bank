@@ -28,8 +28,7 @@ public interface AccountService {
      * @throws CustomerNotFoundException
      * @throws TransactionInvalidException
      */
-    void deposit(Integer id, Integer customerId, double amount)
-            throws AccountNotFoundException, CustomerNotFoundException, TransactionInvalidException;
+    void deposit(Integer id, Integer customerId, double amount) throws AccountNotFoundException, CustomerNotFoundException, TransactionInvalidException;
 
     /**
      * Perform an {@link Account} withdrawal
@@ -41,6 +40,5 @@ public interface AccountService {
      * @throws CustomerNotFoundException
      * @throws TransactionInvalidException
      */
-    void withdraw(Integer id, Integer customerId, double amount)
-            throws AccountNotFoundException, CustomerNotFoundException, TransactionInvalidException;
+    void withdraw(Integer id, Integer customerId, double amount) throws AccountNotFoundException, CustomerNotFoundException, TransactionInvalidException;
 }

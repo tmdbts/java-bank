@@ -62,6 +62,7 @@ public class MockCustomerService extends AbstractMockService<Customer> implement
         }
 
         modelMap.put(customer.getId(), customer);
+
         return customer;
     }
 
@@ -125,8 +126,7 @@ public class MockCustomerService extends AbstractMockService<Customer> implement
      * @see CustomerService#removeRecipient(Integer, Integer)
      */
     @Override
-    public void removeRecipient(Integer id, Integer recipientId)
-            throws CustomerNotFoundException, RecipientNotFoundException {
+    public void removeRecipient(Integer id, Integer recipientId) throws CustomerNotFoundException, RecipientNotFoundException {
 
         Customer customer = Optional.ofNullable(modelMap.get(id))
                 .orElseThrow(CustomerNotFoundException::new);
@@ -151,8 +151,11 @@ public class MockCustomerService extends AbstractMockService<Customer> implement
      */
     @Override
     public Account addAccount(Integer id, Account account) {
+
         Customer customer = get(id);
+
         customer.addAccount(account);
+
         return account;
     }
 
@@ -161,6 +164,7 @@ public class MockCustomerService extends AbstractMockService<Customer> implement
      */
     @Override
     public void closeAccount(Integer cid, Integer accountId) {
+
         Customer customer = modelMap.get(cid);
 
         customer.getAccounts().stream()
@@ -170,6 +174,7 @@ public class MockCustomerService extends AbstractMockService<Customer> implement
     }
 
     private Set<Integer> getAccountIds(Customer customer) {
+        
         List<Account> accounts = customer.getAccounts();
 
         return accounts.stream()

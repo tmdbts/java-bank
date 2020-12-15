@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -65,8 +64,7 @@ public class TransferServiceImpl implements TransferService {
      */
     @Transactional
     @Override
-    public void transfer(Transfer transfer, Integer customerId)
-            throws CustomerNotFoundException, AccountNotFoundException, TransactionInvalidException {
+    public void transfer(Transfer transfer, Integer customerId) throws CustomerNotFoundException, AccountNotFoundException, TransactionInvalidException {
 
         Customer customer = Optional.ofNullable(customerDao.findById(customerId))
                 .orElseThrow(CustomerNotFoundException::new);
@@ -82,12 +80,10 @@ public class TransferServiceImpl implements TransferService {
 
         // make sure destination account is a part of the recipient list
         verifyRecipientId(customer, dstAccount);
-
         accountTransfer(srcAccount, dstAccount, transfer.getAmount());
     }
 
-    private void accountTransfer(Account srcAccount, Account dstAccount, Double amount)
-            throws AccountNotFoundException, TransactionInvalidException {
+    private void accountTransfer(Account srcAccount, Account dstAccount, Double amount) throws AccountNotFoundException, TransactionInvalidException {
 
         // make sure transaction can be performed
         verifyTransferAccountInformation(srcAccount, dstAccount, amount);

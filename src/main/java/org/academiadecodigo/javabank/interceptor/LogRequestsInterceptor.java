@@ -29,7 +29,9 @@ public class LogRequestsInterceptor extends HandlerInterceptorAdapter {
         HandlerMethod handlerMethod = (HandlerMethod) handler;
         Method method = handlerMethod.getMethod();
         Logger logger = LogManager.getLogger(method.getDeclaringClass());
+
         logger.info(request.getMethod() + " " + request.getServletPath());
+        
         return true;
     }
 }

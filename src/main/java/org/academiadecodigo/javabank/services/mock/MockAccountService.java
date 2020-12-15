@@ -39,8 +39,7 @@ public class MockAccountService extends AbstractMockService<Account> implements 
      * @see AccountService#deposit(Integer, Integer, double)
      */
     @Override
-    public void deposit(Integer id, Integer customerId, double amount)
-            throws CustomerNotFoundException, AccountNotFoundException, TransactionInvalidException {
+    public void deposit(Integer id, Integer customerId, double amount) throws CustomerNotFoundException, AccountNotFoundException, TransactionInvalidException {
 
         Customer customer = Optional.ofNullable(customerService.get(customerId))
                 .orElseThrow(CustomerNotFoundException::new);
@@ -69,8 +68,7 @@ public class MockAccountService extends AbstractMockService<Account> implements 
      * @see AccountService#withdraw(Integer, Integer, double)
      */
     @Override
-    public void withdraw(Integer id, Integer customerId, double amount)
-            throws CustomerNotFoundException, AccountNotFoundException, TransactionInvalidException {
+    public void withdraw(Integer id, Integer customerId, double amount) throws CustomerNotFoundException, AccountNotFoundException, TransactionInvalidException {
 
         Customer customer = Optional.ofNullable(customerService.get(customerId))
                 .orElseThrow(CustomerNotFoundException::new);
